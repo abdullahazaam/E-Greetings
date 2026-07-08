@@ -36,22 +36,48 @@ namespace E_Greetings.Controllers
             }
 
             ViewBag.Template = template;
-            return View();
+            return View(new Card { TemplateId = templateId });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Card card, string scheduleDate, string scheduleTime)
         {
-            // ✅ ModelState validation - sirf mandatory fields check karega
-            if (!ModelState.IsValid)
-            {
-                var errors = ModelState.Values.SelectMany(v => v.Errors);
-                foreach (var error in errors)
-                {
-                    Console.WriteLine($"Model Error: {error.ErrorMessage}");
-                }
+            // ✅ STEP 1: Manually validate required fields
+            bool hasError = false;
 
+            if (string.IsNullOrWhiteSpace(card.RecipientName))
+            {
+                ModelState.AddModelError("RecipientName", "Recipient Name is required");
+                hasError = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(card.RecipientEmail))
+            {
+                ModelState.AddModelError("RecipientEmail", "Recipient Email is required");
+                hasError = true;
+            }
+            else if (!IsValidEmail(card.RecipientEmail))
+            {
+                ModelState.AddModelError("RecipientEmail", "Please enter a valid email address");
+                hasError = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(card.Subject))
+            {
+                ModelState.AddModelError("Subject", "Subject is required");
+                hasError = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(card.Message))
+            {
+                ModelState.AddModelError("Message", "Message is required");
+                hasError = true;
+            }
+
+            // ✅ STEP 2: Agar error hai to return
+            if (hasError)
+            {
                 var templateData = await _context.Templates.FindAsync(card.TemplateId);
                 ViewBag.Template = templateData;
                 TempData["Error"] = "Please fill in all required fields.";
@@ -68,7 +94,7 @@ namespace E_Greetings.Controllers
 
                 card.SenderId = user.Id;
 
-                // ✅ SCHEDULE - COMPLETELY OPTIONAL
+                // ✅ STEP 3: SCHEDULE - OPTIONAL
                 bool isScheduled = false;
 
                 if (!string.IsNullOrEmpty(scheduleDate) && !string.IsNullOrEmpty(scheduleTime))
@@ -100,18 +126,18 @@ namespace E_Greetings.Controllers
                     }
                     catch (FormatException)
                     {
-                        TempData["Error"] = "Invalid schedule date/time format! Use YYYY-MM-DD HH:MM";
+                        TempData["Error"] = "Invalid schedule date/time format!";
                         var templateFormat = await _context.Templates.FindAsync(card.TemplateId);
                         ViewBag.Template = templateFormat;
                         return View(card);
                     }
                 }
 
-                // ✅ Agar schedule nahi hai to immediately send
+                // ✅ STEP 4: Agar schedule nahi hai to immediately send
                 if (!isScheduled)
                 {
                     card.SentDate = DateTime.Now;
-                    card.Status = "Pending";
+                    card.Status = "Sent";
                     card.IsScheduled = false;
                     card.IsSent = false;
                     card.ScheduleDate = null;
@@ -120,7 +146,7 @@ namespace E_Greetings.Controllers
                 _context.Add(card);
                 await _context.SaveChangesAsync();
 
-                // ✅ Agar schedule nahi hai to direct send page par bhejein
+                // ✅ STEP 5: Send page par redirect
                 return RedirectToAction("Send", new { id = card.CardId });
             }
             catch (Exception ex)
@@ -129,6 +155,20 @@ namespace E_Greetings.Controllers
                 var templateEx = await _context.Templates.FindAsync(card.TemplateId);
                 ViewBag.Template = templateEx;
                 return View(card);
+            }
+        }
+
+        // ✅ Helper method to validate email
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
             }
         }
 

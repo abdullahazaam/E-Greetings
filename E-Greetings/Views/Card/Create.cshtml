@@ -53,6 +53,7 @@
         color: #FFFFFF !important;
         padding: 12px 16px;
         border-radius: 12px;
+        width: 100%;
     }
 
         .form-control:focus {
@@ -60,19 +61,30 @@
             border-color: #6C63FF !important;
             box-shadow: 0 0 0 3px rgba(108,99,255,0.2) !important;
             color: #FFFFFF !important;
+            outline: none;
         }
 
         .form-control::placeholder {
             color: rgba(255,255,255,0.3) !important;
         }
 
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
     .form-label {
         color: rgba(255,255,255,0.7);
         font-weight: 500;
+        display: block;
+        margin-bottom: 6px;
     }
 
     .text-danger {
         color: #FF6B6B !important;
+        font-size: 0.85rem;
+        margin-top: 4px;
+        display: block;
     }
 
     .btn-login {
@@ -84,6 +96,7 @@
         font-weight: 600;
         transition: all 0.3s ease;
         width: 100%;
+        cursor: pointer;
     }
 
         .btn-login:hover {
@@ -98,6 +111,7 @@
         color: #FF6B6B;
         border-radius: 12px;
         padding: 15px 20px;
+        margin-bottom: 20px;
     }
 
     .alert-success-custom {
@@ -106,6 +120,184 @@
         color: #4CAF50;
         border-radius: 12px;
         padding: 15px 20px;
+        margin-bottom: 20px;
+    }
+
+        .alert-danger-custom i,
+        .alert-success-custom i {
+            margin-right: 10px;
+        }
+
+    .btn-close {
+        background: transparent;
+        border: none;
+        color: rgba(255,255,255,0.4);
+        font-size: 1.2rem;
+        cursor: pointer;
+        float: right;
+        padding: 0 8px;
+    }
+
+        .btn-close:hover {
+            color: #fff;
+        }
+
+    .fade {
+        opacity: 0;
+        transition: opacity 0.15s linear;
+    }
+
+        .fade.show {
+            opacity: 1;
+        }
+
+    .alert-dismissible {
+        position: relative;
+        padding-right: 48px;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 0 -12px;
+    }
+
+        .row .col-md-6 {
+            flex: 0 0 50%;
+            max-width: 50%;
+            padding: 0 12px;
+        }
+
+    .mb-3 {
+        margin-bottom: 20px;
+    }
+
+    .justify-content-center {
+        justify-content: center;
+    }
+
+    .help-text {
+        color: rgba(255,255,255,0.3);
+        font-size: 0.8rem;
+        display: block;
+        margin-top: 4px;
+    }
+
+        .help-text i {
+            margin-right: 6px;
+        }
+
+    /* --- Toggle Switch (Custom Checkbox) --- */
+    .toggle-switch {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+        .toggle-switch input {
+            display: none;
+        }
+
+    .toggle-slider {
+        width: 50px;
+        height: 28px;
+        background: rgba(255,255,255,0.08);
+        border-radius: 50px;
+        position: relative;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255,255,255,0.06);
+        flex-shrink: 0;
+    }
+
+        .toggle-slider::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: #6C63FF;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(108,99,255,0.3);
+        }
+
+    .toggle-switch input:checked + .toggle-slider {
+        background: rgba(108,99,255,0.25);
+        border-color: rgba(108,99,255,0.3);
+    }
+
+        .toggle-switch input:checked + .toggle-slider::after {
+            transform: translateX(22px);
+            background: #6C63FF;
+        }
+
+    .toggle-label {
+        color: rgba(255,255,255,0.6);
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+
+        .toggle-label strong {
+            color: #FFFFFF;
+        }
+
+    /* Schedule Fields - Hidden by default */
+    .schedule-fields {
+        display: none;
+        margin-top: 12px;
+        padding-top: 12px;
+        border-top: 1px solid rgba(255,255,255,0.04);
+    }
+
+        .schedule-fields.show {
+            display: block;
+        }
+
+    @@media (max-width: 768px) {
+        .form-card {
+            padding: 30px 20px;
+        }
+
+        .row .col-md-6 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .form-card {
+            padding: 24px 16px;
+            border-radius: 24px;
+        }
+
+        .form-control {
+            padding: 10px 14px;
+            font-size: 0.9rem;
+        }
+
+        .btn-login {
+            padding: 12px;
+            font-size: 0.9rem;
+        }
+
+        .toggle-slider {
+            width: 42px;
+            height: 24px;
+        }
+
+            .toggle-slider::after {
+                width: 17px;
+                height: 17px;
+                top: 2.5px;
+                left: 2.5px;
+            }
+
+        .toggle-switch input:checked + .toggle-slider::after {
+            transform: translateX(18px);
+        }
     }
 </style>
 
@@ -124,34 +316,48 @@
         <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
     </div>
 
-    <div class="container" style="position:relative; z-index:1;">
+    <div class="container" style="position:relative; z-index:1; max-width:1200px; margin:0 auto; padding:0 15px;">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg-8 col-xl-7" style="flex:0 0 66.666%; max-width:66.666%; padding:0 15px;">
+
                 <div class="form-card">
+                    <!-- HEADER -->
                     <h2 style="color:#FFFFFF; font-weight:700; text-align:center;">
-                        ✨ Personalize Your <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Card</span>
+                        Personalize Your <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Card</span>
                     </h2>
                     <p style="color:rgba(255,255,255,0.4); text-align:center; margin-bottom:30px;">
-                        Template: <strong style="color:#FFFFFF;">@template?.Title</strong>
+                        Template: <strong style="color:#FFFFFF;">@(template?.Title ?? "Not Selected")</strong>
                     </p>
 
+                    <!-- ERROR ALERT -->
                     @if (TempData["Error"] != null)
                     {
-                        <div class="alert alert-danger-custom alert-dismissible fade show" role="alert">
+                        <div class="alert-danger-custom alert-dismissible fade show" role="alert">
                             <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">×</button>
                         </div>
                     }
 
-                    <form asp-action="Create" method="post" id="createForm">
-                        <input type="hidden" asp-for="TemplateId" value="@template?.TemplateId" />
+                    <!-- SUCCESS ALERT -->
+                    @if (TempData["Success"] != null)
+                    {
+                        <div class="alert-success-custom alert-dismissible fade show" role="alert">
+                            <i class="fas fa-check-circle"></i> @TempData["Success"]
+                            <button type="button" class="btn-close" data-dismiss="alert" aria-label="Close">×</button>
+                        </div>
+                    }
+
+                    <!-- FORM -->
+                    <form asp-action="Create" method="post" id="createForm" novalidate>
+                        @Html.AntiForgeryToken()
+                        <input type="hidden" asp-for="TemplateId" value="@(template?.TemplateId ?? 0)" />
 
                         <!-- Recipient Name -->
                         <div class="mb-3">
                             <label asp-for="RecipientName" class="form-label">
                                 <i class="fas fa-user" style="color:#6C63FF;"></i> Recipient Name <span style="color:#FF6B6B;">*</span>
                             </label>
-                            <input asp-for="RecipientName" class="form-control" placeholder="John Doe" required />
+                            <input asp-for="RecipientName" class="form-control" placeholder="John Doe" />
                             <span asp-validation-for="RecipientName" class="text-danger"></span>
                         </div>
 
@@ -160,7 +366,7 @@
                             <label asp-for="RecipientEmail" class="form-label">
                                 <i class="fas fa-envelope" style="color:#6C63FF;"></i> Recipient Email <span style="color:#FF6B6B;">*</span>
                             </label>
-                            <input asp-for="RecipientEmail" class="form-control" placeholder="friend@example.com" type="email" required />
+                            <input asp-for="RecipientEmail" class="form-control" placeholder="friend@example.com" type="email" />
                             <span asp-validation-for="RecipientEmail" class="text-danger"></span>
                         </div>
 
@@ -169,7 +375,7 @@
                             <label asp-for="Subject" class="form-label">
                                 <i class="fas fa-tag" style="color:#6C63FF;"></i> Subject <span style="color:#FF6B6B;">*</span>
                             </label>
-                            <input asp-for="Subject" class="form-control" placeholder="Happy Birthday!" required />
+                            <input asp-for="Subject" class="form-control" placeholder="Happy Birthday!" />
                             <span asp-validation-for="Subject" class="text-danger"></span>
                         </div>
 
@@ -178,7 +384,7 @@
                             <label asp-for="Message" class="form-label">
                                 <i class="fas fa-comment" style="color:#6C63FF;"></i> Your Message <span style="color:#FF6B6B;">*</span>
                             </label>
-                            <textarea asp-for="Message" class="form-control" rows="5" placeholder="Write your heartfelt message here..." required></textarea>
+                            <textarea asp-for="Message" class="form-control" rows="5" placeholder="Write your message here"></textarea>
                             <span asp-validation-for="Message" class="text-danger"></span>
                         </div>
 
@@ -187,36 +393,52 @@
                             <label asp-for="PhotoPath" class="form-label">
                                 <i class="fas fa-image" style="color:#6C63FF;"></i> Photo URL <span style="color:rgba(255,255,255,0.3);">(Optional)</span>
                             </label>
-                            <input asp-for="PhotoPath" class="form-control" placeholder="https://example.com/photo.jpg" />
-                            <small style="color:rgba(255,255,255,0.3);">Add a personal photo to your card</small>
+                            <input asp-for="PhotoPath" class="form-control" placeholder="https://example.com/photos" />
+                            <small class="help-text"><i class="fas fa-info-circle"></i> Add a personal photo to your message.</small>
+                            <span asp-validation-for="PhotoPath" class="text-danger"></span>
                         </div>
 
-                        <!-- Schedule - OPTIONAL -->
+                        <!-- ============================================================
+                             SCHEDULE - OPTIONAL (Toggle Switch)
+                             ============================================================ -->
                         <div class="mb-3">
-                            <label class="form-label" style="color:rgba(255,255,255,0.7);">
-                                <i class="fas fa-calendar-alt" style="color:#6C63FF;"></i> Schedule Card <span style="color:rgba(255,255,255,0.3);">(Optional)</span>
+                            <label class="toggle-switch" id="scheduleToggle">
+                                <input type="checkbox" id="scheduleCheckbox" />
+                                <span class="toggle-slider"></span>
+                                <span class="toggle-label">
+                                    <strong>Schedule Card</strong> <span style="color:rgba(255,255,255,0.2);">(Optional)</span>
+                                </span>
                             </label>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <input type="date" id="scheduleDate" name="scheduleDate" class="form-control"
-                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
-                                           style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;" />
+
+                            <!-- Schedule Fields (Hidden by default) -->
+                            <div class="schedule-fields" id="scheduleFields">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-size:0.8rem; color:rgba(255,255,255,0.4);">
+                                            <i class="fas fa-calendar-day" style="color:#6C63FF;"></i> Date
+                                        </label>
+                                        <input type="date" id="scheduleDate" name="scheduleDate" class="form-control"
+                                               min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label" style="font-size:0.8rem; color:rgba(255,255,255,0.4);">
+                                            <i class="fas fa-clock" style="color:#6C63FF;"></i> Time
+                                        </label>
+                                        <input type="time" id="scheduleTime" name="scheduleTime" class="form-control" />
+                                    </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="time" id="scheduleTime" name="scheduleTime" class="form-control"
-                                           style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;" />
-                                </div>
+                                <small class="help-text"><i class="fas fa-info-circle"></i> Leave empty to send immediately</small>
                             </div>
-                            <small style="color:rgba(255,255,255,0.3);">
-                                <i class="fas fa-info-circle"></i> Leave empty to send immediately
-                            </small>
                         </div>
 
-                        <button type="submit" class="btn btn-login">
-                            <i class="fas fa-arrow-right"></i> <span id="submitBtnText">Next: Send Card</span>
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-login" id="submitBtn">
+                            <i class="fas fa-paper-plane" style="margin-right:10px;"></i>
+                            <span id="submitBtnText">Send Card</span>
                         </button>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -225,25 +447,65 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        // ✅ Schedule fields change par button text update
-        document.getElementById('scheduleDate').addEventListener('change', function() {
-            updateButtonText();
-        });
-
-        document.getElementById('scheduleTime').addEventListener('change', function() {
-            updateButtonText();
-        });
-
-        function updateButtonText() {
-            var date = document.getElementById('scheduleDate').value;
-            var time = document.getElementById('scheduleTime').value;
+        document.addEventListener('DOMContentLoaded', function() {
+            var checkbox = document.getElementById('scheduleCheckbox');
+            var scheduleFields = document.getElementById('scheduleFields');
+            var dateInput = document.getElementById('scheduleDate');
+            var timeInput = document.getElementById('scheduleTime');
             var btnText = document.getElementById('submitBtnText');
 
-            if (date && time) {
-                btnText.textContent = 'Schedule Card';
-            } else {
-                btnText.textContent = 'Next: Send Card';
+            // Toggle Schedule Fields
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    scheduleFields.classList.add('show');
+                    // Set default date to tomorrow
+                    var tomorrow = new Date();
+                    tomorrow.setDate(tomorrow.getDate() + 1);
+                    dateInput.value = tomorrow.toISOString().split('T')[0];
+                    timeInput.value = '09:00';
+                    btnText.textContent = 'Schedule Card';
+                } else {
+                    scheduleFields.classList.remove('show');
+                    dateInput.value = '';
+                    timeInput.value = '';
+                    btnText.textContent = 'Send Card';
+                }
+            });
+
+            // Update button text when schedule fields change
+            function updateButtonText() {
+                if (checkbox.checked && dateInput.value && timeInput.value) {
+                    btnText.textContent = 'Schedule Card';
+                } else if (checkbox.checked) {
+                    btnText.textContent = 'Select Date & Time';
+                } else {
+                    btnText.textContent = 'Send Card';
+                }
             }
-        }
+
+            dateInput.addEventListener('change', updateButtonText);
+            timeInput.addEventListener('change', updateButtonText);
+            dateInput.addEventListener('input', updateButtonText);
+            timeInput.addEventListener('input', updateButtonText);
+
+            // Alert dismiss
+            document.querySelectorAll('.btn-close').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var parent = this.closest('.alert-danger-custom, .alert-success-custom');
+                    if (parent) parent.style.display = 'none';
+                });
+            });
+
+            // Auto dismiss alerts after 5 seconds
+            document.querySelectorAll('.alert-danger-custom, .alert-success-custom').forEach(function(alert) {
+                setTimeout(function() {
+                    alert.style.transition = 'opacity 0.5s ease';
+                    alert.style.opacity = '0';
+                    setTimeout(function() {
+                        alert.style.display = 'none';
+                    }, 500);
+                }, 5000);
+            });
+        });
     </script>
 }

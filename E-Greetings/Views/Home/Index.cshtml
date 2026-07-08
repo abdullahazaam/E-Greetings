@@ -39,6 +39,16 @@ ViewData["Title"] = "Home - Send Digital Greetings";
         }
     }
 
+    @@keyframes floatImage {
+        0%, 100% {
+            transform: translateY(0px) scale(1);
+        }
+
+        50% {
+            transform: translateY(-20px) scale(1.02);
+        }
+    }
+
     @@keyframes gradientMove {
         0% {
             background-position: 0% 50%;
@@ -73,11 +83,72 @@ ViewData["Title"] = "Home - Send Digital Greetings";
         }
     }
 
+    @@keyframes pulseGlow {
+        0%, 100% {
+            box-shadow: 0 0 30px rgba(108, 99, 255, 0.15);
+        }
+
+        50% {
+            box-shadow: 0 0 80px rgba(108, 99, 255, 0.35);
+        }
+    }
+
+    @@keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes modernBgMove {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
     .floating-cards {
         animation: floatCard 5s ease-in-out infinite;
     }
 
-    /* ===== HERO SECTION - SIMPLE & CLEAN ===== */
+    /* Hero Image Floating */
+    .hero-image-float {
+        animation: floatImage 6s ease-in-out infinite;
+    }
+
+    .animate-up {
+        animation: slideUp 0.8s ease forwards;
+    }
+
+    .animate-up-d1 {
+        animation-delay: 0.1s;
+    }
+
+    .animate-up-d2 {
+        animation-delay: 0.2s;
+    }
+
+    .animate-up-d3 {
+        animation-delay: 0.3s;
+    }
+
+    .animate-up-d4 {
+        animation-delay: 0.4s;
+    }
+
+    /* ===== HERO SECTION ===== */
     .hero-section {
         position: relative;
         overflow: hidden;
@@ -87,6 +158,66 @@ ViewData["Title"] = "Home - Send Digital Greetings";
         padding: 80px 0;
         background: #0F0F1A;
     }
+
+    .hero-image-wrapper {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+    }
+
+        .hero-image-wrapper .hero-img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+            transition: all 0.5s ease;
+        }
+
+            .hero-image-wrapper .hero-img:hover {
+                transform: scale(1.02);
+                border-color: rgba(108, 99, 255, 0.20);
+                box-shadow: 0 40px 100px rgba(108, 99, 255, 0.10);
+            }
+
+    .float-badge {
+        position: absolute;
+        bottom: -10px;
+        right: -10px;
+        background: rgba(20, 18, 40, 0.92);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 20px;
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 0.9rem;
+        color: #fff;
+        animation: floatCard 5s ease-in-out infinite;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    }
+
+        .float-badge .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #4ADE80;
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        .float-badge strong {
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .float-badge small {
+            color: rgba(255, 255, 255, 0.35);
+            font-weight: 400;
+        }
 
     .gradient-text {
         background: linear-gradient(135deg, #6C63FF, #FF6B6B, #FFD93D);
@@ -107,6 +238,7 @@ ViewData["Title"] = "Home - Send Digital Greetings";
         font-size: 1.1rem;
         text-decoration: none;
         transition: all 0.3s ease;
+        animation: pulseGlow 3s ease-in-out infinite;
     }
 
         .btn-hero:hover {
@@ -115,193 +247,379 @@ ViewData["Title"] = "Home - Send Digital Greetings";
             color: #FFFFFF;
         }
 
-    /* ===== CATEGORY SECTION - ADVANCED GLASSMORPHISM ===== */
+    /* ============================================================
+           CATEGORY SECTION - MODERN UI
+           ============================================================ */
     .category-section {
-        padding: 80px 0;
-        background: #141425;
+        padding: 90px 0 110px;
+        background: #080816;
         position: relative;
         overflow: hidden;
     }
 
+        /* ---- Modern Gradient Background ---- */
         .category-section::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 50%, rgba(108, 99, 255, 0.05) 0%, transparent 60%), radial-gradient(ellipse at 70% 50%, rgba(255, 107, 107, 0.05) 0%, transparent 60%);
-            animation: gradientBG 20s ease-in-out infinite;
+            inset: 0;
             z-index: 0;
+            background: radial-gradient(ellipse at 10% 20%, rgba(108, 99, 255, 0.08) 0%, transparent 50%), radial-gradient(ellipse at 90% 80%, rgba(255, 107, 107, 0.06) 0%, transparent 45%), radial-gradient(ellipse at 50% 50%, rgba(255, 217, 61, 0.03) 0%, transparent 40%), linear-gradient(180deg, #080816 0%, #0F0D1F 40%, #14102A 70%, #080816 100%);
+            background-size: 300% 300%;
+            animation: modernBgMove 18s ease-in-out infinite;
         }
 
-    .category-card-new {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.06);
-        border-radius: 24px;
-        padding: 35px 20px 30px;
+        /* ---- Grid Lines Overlay ---- */
+        .category-section .grid-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+            background-size: 70px 70px;
+            opacity: 0.6;
+        }
+
+        /* ---- Floating Orbs (Extra) ---- */
+        .category-section .orb-modern {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+            animation: floatBubble 14s ease-in-out infinite;
+        }
+
+            .category-section .orb-modern.orb-1 {
+                width: 400px;
+                height: 400px;
+                top: -100px;
+                left: -80px;
+                background: rgba(108, 99, 255, 0.05);
+                animation-delay: 0s;
+            }
+
+            .category-section .orb-modern.orb-2 {
+                width: 350px;
+                height: 350px;
+                bottom: -80px;
+                right: -60px;
+                background: rgba(255, 107, 107, 0.04);
+                animation-delay: 4s;
+            }
+
+    /* ---- Section Header ---- */
+    .section-header {
+        position: relative;
+        z-index: 1;
+        text-align: center;
+        margin-bottom: 50px;
+    }
+
+        .section-header .tag {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: #6C63FF;
+            background: rgba(108, 99, 255, 0.06);
+            padding: 6px 22px;
+            border-radius: 100px;
+            margin-bottom: 10px;
+            border: 1px solid rgba(108, 99, 255, 0.06);
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            letter-spacing: -0.5px;
+        }
+
+            .section-header h2 .highlight {
+                background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+        .section-header p {
+            color: rgba(255, 255, 255, 0.25);
+            font-size: 1.05rem;
+        }
+
+    /* ---- Category Grid ---- */
+    .category-grid {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 24px;
+    }
+
+    /* ---- Category Card - Modern Premium ---- */
+    .category-card-modern {
+        background: rgba(255, 255, 255, 0.02);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 32px;
+        padding: 38px 20px 32px;
         text-align: center;
         transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        cursor: pointer;
         position: relative;
         overflow: hidden;
-        z-index: 1;
-        height: 100%;
-        min-height: 260px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        min-height: 270px;
+        cursor: pointer;
+        text-decoration: none;
     }
 
-        .category-card-new::before {
+        /* Glass overlay */
+        .category-card-modern::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, rgba(108, 99, 255, 0.08), rgba(255, 107, 107, 0.08));
+            inset: 0;
+            background: linear-gradient(135deg, rgba(108, 99, 255, 0.06), rgba(255, 107, 107, 0.04));
             opacity: 0;
             transition: opacity 0.5s ease;
-            border-radius: 24px;
+            border-radius: 32px;
             z-index: -1;
         }
 
-        .category-card-new::after {
+        /* Neon border glow on hover */
+        .category-card-modern::after {
             content: '';
             position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(135deg, #6C63FF, #FF6B6B, #6C63FF);
+            inset: -2px;
+            background: linear-gradient(135deg, #6C63FF, #FF6B6B, #FFD93D, #6C63FF);
             background-size: 300% 300%;
-            border-radius: 26px;
+            border-radius: 34px;
             opacity: 0;
             transition: opacity 0.5s ease;
             z-index: -2;
-            animation: shimmer 3s ease-in-out infinite;
+            animation: shimmer 4s ease-in-out infinite;
         }
 
-        .category-card-new:hover::before {
-            opacity: 1;
+        .category-card-modern:hover {
+            transform: translateY(-16px) scale(1.02);
+            border-color: rgba(108, 99, 255, 0.15);
+            box-shadow: 0 35px 90px rgba(108, 99, 255, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.04);
         }
 
-        .category-card-new:hover::after {
-            opacity: 0.3;
-        }
+            .category-card-modern:hover::before {
+                opacity: 1;
+            }
 
-        .category-card-new:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: rgba(108, 99, 255, 0.3);
-            box-shadow: 0 25px 60px rgba(108, 99, 255, 0.15);
-        }
+            .category-card-modern:hover::after {
+                opacity: 0.15;
+            }
 
-        .category-card-new .icon-wrap {
-            font-size: 3.5rem;
+        /* Icon */
+        .category-card-modern .icon-wrap {
+            font-size: 4rem;
             display: block;
-            margin-bottom: 15px;
+            margin-bottom: 16px;
             transition: all 0.4s ease;
-            animation: iconFloat 4s ease-in-out infinite;
-            position: relative;
             color: #6C63FF;
+            position: relative;
         }
 
-        .category-card-new:hover .icon-wrap {
-            transform: scale(1.15) rotate(-5deg);
-            animation: none;
+            .category-card-modern .icon-wrap .icon-bg {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 90px;
+                height: 90px;
+                border-radius: 50%;
+                background: rgba(108, 99, 255, 0.04);
+                z-index: -1;
+                transition: all 0.5s ease;
+            }
+
+        .category-card-modern:hover .icon-wrap {
+            transform: scale(1.12) rotate(-5deg);
             color: #FF6B6B;
         }
 
-        .category-card-new .icon-wrap .icon-bg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(108, 99, 255, 0.08);
-            z-index: -1;
-            transition: all 0.5s ease;
-        }
+            .category-card-modern:hover .icon-wrap .icon-bg {
+                width: 110px;
+                height: 110px;
+                background: rgba(108, 99, 255, 0.08);
+                box-shadow: 0 0 40px rgba(108, 99, 255, 0.05);
+            }
 
-        .category-card-new:hover .icon-wrap .icon-bg {
-            width: 100px;
-            height: 100px;
-            background: rgba(108, 99, 255, 0.15);
-        }
-
-        .category-card-new h5 {
+        .category-card-modern h5 {
             font-weight: 700;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             color: #FFFFFF;
-            margin-bottom: 5px;
+            margin-bottom: 2px;
         }
 
-        .category-card-new .template-count {
-            color: rgba(255, 255, 255, 0.35);
+        .category-card-modern .template-count {
+            color: rgba(255, 255, 255, 0.15);
             font-size: 0.85rem;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
         }
 
-        .category-card-new .view-link {
+        .category-card-modern .view-link {
             color: #6C63FF;
             font-weight: 500;
             font-size: 0.9rem;
             text-decoration: none;
             transition: all 0.3s ease;
-            opacity: 0.7;
+            opacity: 0.3;
             display: inline-flex;
             align-items: center;
             gap: 6px;
         }
 
-        .category-card-new:hover .view-link {
+        .category-card-modern:hover .view-link {
             opacity: 1;
-            gap: 12px;
+            gap: 14px;
             color: #FF6B6B;
         }
 
-            .category-card-new:hover .view-link i {
-                transform: translateX(4px);
-            }
+        .category-card-modern .view-link i {
+            transition: transform 0.3s ease;
+        }
 
-        .category-card-new .glow {
+        .category-card-modern:hover .view-link i {
+            transform: translateX(6px);
+        }
+
+        .category-card-modern .glow-spot {
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at center, rgba(108, 99, 255, 0.03) 0%, transparent 70%);
+            top: -40%;
+            left: -40%;
+            width: 180%;
+            height: 180%;
+            background: radial-gradient(circle at center, rgba(108, 99, 255, 0.05) 0%, transparent 60%);
             opacity: 0;
             transition: opacity 0.6s ease;
             pointer-events: none;
+            z-index: -1;
         }
 
-        .category-card-new:hover .glow {
+        .category-card-modern:hover .glow-spot {
             opacity: 1;
         }
 
+        /* ---- Card Count Badge (new) ---- */
+        .category-card-modern .count-badge {
+            display: inline-block;
+            padding: 2px 14px;
+            background: rgba(108, 99, 255, 0.06);
+            border-radius: 50px;
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+    /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+    @@media (max-width: 992px) {
+        .category-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .hero-image-wrapper .hero-img {
+            max-width: 400px;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+        }
+    }
+
     @@media (max-width: 768px) {
-        .category-card-new {
+        .category-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .hero-image-wrapper .hero-img {
+            max-width: 100%;
+        }
+
+        .float-badge {
+            bottom: -8px;
+            right: 0;
+            padding: 10px 16px;
+            font-size: 0.75rem;
+            border-radius: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .category-card-modern {
             min-height: 200px;
             padding: 25px 15px;
         }
 
-            .category-card-new .icon-wrap {
+            .category-card-modern .icon-wrap {
+                font-size: 3rem;
+            }
+
+        .category-section .orb-modern {
+            display: none;
+        }
+
+        .category-section .grid-overlay {
+            background-size: 30px 30px;
+        }
+    }
+
+    @@media (max-width: 480px) {
+        .hero-image-wrapper .hero-img {
+            max-width: 100%;
+            border-radius: 16px;
+        }
+
+        .float-badge {
+            padding: 8px 14px;
+            font-size: 0.7rem;
+            gap: 8px;
+        }
+
+            .float-badge .dot {
+                width: 6px;
+                height: 6px;
+            }
+
+        .category-card-modern {
+            min-height: 170px;
+            padding: 20px 12px;
+        }
+
+            .category-card-modern .icon-wrap {
                 font-size: 2.5rem;
             }
 
-            .category-card-new h5 {
-                font-size: 1.1rem;
-            }
+                .category-card-modern .icon-wrap .icon-bg {
+                    width: 60px;
+                    height: 60px;
+                }
+
+        .section-header h2 {
+            font-size: 1.8rem;
+        }
+
+        .section-header .tag {
+            font-size: 0.6rem;
+            padding: 4px 14px;
+        }
     }
 </style>
 
-<!-- ===== HERO SECTION - SIMPLE & CLEAN ===== -->
+<!-- ============================================================
+     HERO SECTION - FLOATING IMAGE
+     ============================================================ -->
 <section class="hero-section">
 
     <!-- GRADIENT BACKGROUND -->
@@ -320,7 +638,8 @@ ViewData["Title"] = "Home - Send Digital Greetings";
 
     <div class="container" style="position:relative; z-index:1;">
         <div class="row align-items-center">
-            <div class="col-lg-6" data-aos="fade-up">
+            <!-- Left Column - Text -->
+            <div class="col-lg-6 animate-up">
                 <h1 style="font-size:4.5rem; font-weight:800; line-height:1.1; color:#FFFFFF;">
                     Send <span class="gradient-text">Digital</span> <br />
                     Greetings <span class="gradient-text">Instantly</span>
@@ -340,101 +659,105 @@ ViewData["Title"] = "Home - Send Digital Greetings";
                     </small>
                 </div>
             </div>
-            <div class="col-lg-6 text-center floating-cards" data-aos="fade-left">
+
+            <!-- Right Column - Image (FLOATING) -->
+            <div class="col-lg-6 hero-image-wrapper animate-up animate-up-d1">
                 <img src="~/img/Baloon.jpg"
-                     class="img-fluid rounded-4 shadow-lg"
+                     class="hero-img hero-image-float"
                      alt="E-Cards Preview"
-                     style="border: 1px solid rgba(255,255,255,0.05); width:100%; max-width:500px; border-radius:20px;"
                      onerror="this.src='https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=550&h=420&fit=crop'" />
+                <!-- Floating Badge -->
+                <div class="float-badge">
+                    <span class="dot"></span>
+                    <div>
+                        <strong>500+</strong> <small>Cards Available</small>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ===== CATEGORIES SECTION - ADVANCED GLASSMORPHISM ===== -->
+<!-- ============================================================
+     CATEGORY SECTION - MODERN UI
+     ============================================================ -->
 <section class="category-section">
+
+    <!-- Modern Background Elements -->
+    <div class="orb-modern orb-1"></div>
+    <div class="orb-modern orb-2"></div>
+    <div class="grid-overlay"></div>
+
     <div class="container" style="position:relative; z-index:1;">
-        <div class="text-center" data-aos="fade-up">
-            <h2 style="font-size:2.8rem; font-weight:700; margin-bottom:10px; color:#FFFFFF;">
-                Choose Your <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Category</span>
+        <!-- Section Header -->
+        <div class="section-header animate-up">
+            <span class="tag">✦ Categories</span>
+            <h2>
+                Choose Your <span class="highlight">Category</span>
             </h2>
-            <p style="color:rgba(255,255,255,0.4); font-size:1.1rem; margin-bottom:50px;">
-                Find the perfect card for every occasion ✨
-            </p>
+            <p>Find the perfect card for every occasion ✨</p>
         </div>
 
-        <div class="row g-4">
+        <!-- Category Grid -->
+        <div class="category-grid">
             <!-- Birthday -->
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
-                <a href="/Category/Details/1" style="text-decoration:none; display:block; height:100%;">
-                    <div class="category-card-new">
-                        <div class="glow"></div>
-                        <div class="icon-wrap">
-                            <span class="icon-bg"></span>
-                            <i class="fas fa-birthday-cake"></i>
-                        </div>
-                        <h5>Birthday</h5>
-                        <p class="template-count">120+ Templates</p>
-                        <span class="view-link">
-                            Explore <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
+            <a href="/Category/Details/1" class="category-card-modern animate-up animate-up-d1">
+                <div class="glow-spot"></div>
+                <div class="icon-wrap">
+                    <span class="icon-bg"></span>
+                    <i class="fas fa-birthday-cake"></i>
+                </div>
+                <h5>Birthday</h5>
+                <p class="template-count">120+ Templates</p>
+                <span class="view-link">
+                    Explore <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
 
             <!-- Wedding -->
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
-                <a href="/Category/Details/2" style="text-decoration:none; display:block; height:100%;">
-                    <div class="category-card-new">
-                        <div class="glow"></div>
-                        <div class="icon-wrap">
-                            <span class="icon-bg"></span>
-                            <i class="fas fa-ring"></i>
-                        </div>
-                        <h5>Wedding</h5>
-                        <p class="template-count">85+ Templates</p>
-                        <span class="view-link">
-                            Explore <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
+            <a href="/Category/Details/2" class="category-card-modern animate-up animate-up-d2">
+                <div class="glow-spot"></div>
+                <div class="icon-wrap">
+                    <span class="icon-bg"></span>
+                    <i class="fas fa-ring"></i>
+                </div>
+                <h5>Wedding</h5>
+                <p class="template-count">85+ Templates</p>
+                <span class="view-link">
+                    Explore <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
 
             <!-- New Year -->
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
-                <a href="/Category/Details/3" style="text-decoration:none; display:block; height:100%;">
-                    <div class="category-card-new">
-                        <div class="glow"></div>
-                        <div class="icon-wrap">
-                            <span class="icon-bg"></span>
-                            <i class="fas fa-calendar-alt"></i>
-                        </div>
-                        <h5>New Year</h5>
-                        <p class="template-count">60+ Templates</p>
-                        <span class="view-link">
-                            Explore <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
+            <a href="/Category/Details/3" class="category-card-modern animate-up animate-up-d3">
+                <div class="glow-spot"></div>
+                <div class="icon-wrap">
+                    <span class="icon-bg"></span>
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h5>New Year</h5>
+                <p class="template-count">60+ Templates</p>
+                <span class="view-link">
+                    Explore <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
 
             <!-- Festivals -->
-            <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
-                <a href="/Category/Details/4" style="text-decoration:none; display:block; height:100%;">
-                    <div class="category-card-new">
-                        <div class="glow"></div>
-                        <div class="icon-wrap">
-                            <span class="icon-bg"></span>
-                            <i class="fas fa-gift"></i>
-                        </div>
-                        <h5>Festivals</h5>
-                        <p class="template-count">45+ Templates</p>
-                        <span class="view-link">
-                            Explore <i class="fas fa-arrow-right"></i>
-                        </span>
-                    </div>
-                </a>
-            </div>
+            <a href="/Category/Details/4" class="category-card-modern animate-up animate-up-d4">
+                <div class="glow-spot"></div>
+                <div class="icon-wrap">
+                    <span class="icon-bg"></span>
+                    <i class="fas fa-gift"></i>
+                </div>
+                <h5>Festivals</h5>
+                <p class="template-count">45+ Templates</p>
+                <span class="view-link">
+                    Explore <i class="fas fa-arrow-right"></i>
+                </span>
+            </a>
         </div>
     </div>
 </section>
+
+<!-- ===== FONT AWESOME ===== -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
