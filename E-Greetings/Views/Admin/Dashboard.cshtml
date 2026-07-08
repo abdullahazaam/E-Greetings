@@ -1,0 +1,246 @@
+﻿@model AdminDashboardViewModel
+@{
+    ViewData["Title"] = "Admin Dashboard - E-Greetings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .dashboard-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+
+    .stat-card {
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 20px;
+        padding: 25px;
+        transition: all 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(108,99,255,0.1);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .stat-card .stat-label {
+            color: rgba(255,255,255,0.4);
+            font-size: 0.9rem;
+        }
+
+        .stat-card.purple .stat-icon {
+            color: #6C63FF;
+        }
+
+        .stat-card.pink .stat-icon {
+            color: #FF6B6B;
+        }
+
+        .stat-card.green .stat-icon {
+            color: #4CAF50;
+        }
+
+        .stat-card.orange .stat-icon {
+            color: #FFA94D;
+        }
+</style>
+
+<section class="dashboard-section">
+    <!-- ANIMATED GRADIENT BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 style="font-size:2.8rem; font-weight:700; color:#FFFFFF; margin-bottom:0;">
+                    Admin <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Dashboard</span>
+                </h2>
+                <p style="color:rgba(255,255,255,0.4);">Welcome back, Admin!</p>
+            </div>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-register" style="text-decoration:none; padding:10px 30px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                <i class="fas fa-home"></i> View Site
+            </a>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fas fa-users"></i></div>
+                    <div class="stat-number">@Model.TotalUsers</div>
+                    <div class="stat-label">Total Users</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card pink">
+                    <div class="stat-icon"><i class="fas fa-image"></i></div>
+                    <div class="stat-number">@Model.TotalTemplates</div>
+                    <div class="stat-label">Total Templates</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card green">
+                    <div class="stat-icon"><i class="fas fa-paper-plane"></i></div>
+                    <div class="stat-number">@Model.TotalCardsSent</div>
+                    <div class="stat-label">Cards Sent</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card orange">
+                    <div class="stat-icon"><i class="fas fa-comment"></i></div>
+                    <div class="stat-number">@Model.TotalFeedbacks</div>
+                    <div class="stat-label">Feedbacks</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-12">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
+                    <h5 style="color:#FFFFFF; font-weight:600;">Quick Actions</h5>
+                    <div class="d-flex flex-wrap gap-2 mt-3">
+                        <a asp-action="AddTemplate" class="btn btn-login" style="text-decoration:none; padding:10px 25px; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600; display:inline-block;">
+                            <i class="fas fa-plus"></i> Add Template
+                        </a>
+                        <a asp-action="Templates" class="btn btn-register" style="text-decoration:none; padding:10px 25px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                            <i class="fas fa-edit"></i> Manage Templates
+                        </a>
+                        <a asp-action="Users" class="btn btn-register" style="text-decoration:none; padding:10px 25px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                            <i class="fas fa-users-cog"></i> Manage Users
+                        </a>
+                        <a asp-action="Feedbacks" class="btn btn-register" style="text-decoration:none; padding:10px 25px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                            <i class="fas fa-comment"></i> View Feedbacks
+                        </a>
+                        <a asp-action="Transactions" class="btn btn-register" style="text-decoration:none; padding:10px 25px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                            <i class="fas fa-exchange-alt"></i> View Transactions
+                        </a>
+                        <a asp-action="Reports" class="btn btn-register" style="text-decoration:none; padding:10px 25px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                            <i class="fas fa-chart-bar"></i> View Reports
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Cards & Feedbacks -->
+        <div class="row g-4">
+            <div class="col-lg-8">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
+                    <h5 style="color:#FFFFFF; font-weight:600;">Recent Cards Sent</h5>
+                    <div class="table-responsive mt-3">
+                        <table class="table table-dark table-hover" style="border-color:rgba(255,255,255,0.05);">
+                            <thead><tr><th>ID</th><th>Sender</th><th>Recipient</th><th>Template</th><th>Date</th><th>Status</th></tr></thead>
+                            <tbody>
+                                @if (Model.RecentCards.Any())
+                                {
+                                    @foreach (var card in Model.RecentCards)
+                                    {
+                                        <tr>
+                                            <td>#@card.CardId</td>
+                                            <td>@card.Sender?.Email</td>
+                                            <td>@card.RecipientEmail</td>
+                                            <td>@card.Template?.Title</td>
+                                            <td>@card.SentDate.ToString("dd MMM yyyy")</td>
+                                            <td><span class="badge" style="background:@(card.Status == "Delivered" ? "#4CAF50" : "#FFA94D");">@card.Status</span></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr><td colspan="6" class="text-center" style="color:rgba(255,255,255,0.3);">No cards sent yet</td></tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
+                    <h5 style="color:#FFFFFF; font-weight:600;">Recent Feedbacks</h5>
+                    <div class="mt-3">
+                        @if (Model.RecentFeedbacks.Any())
+                        {
+                            @foreach (var feedback in Model.RecentFeedbacks)
+                            {
+                                <div style="padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+                                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                                        <strong style="color:#FFFFFF;">@feedback.User?.Email</strong>
+                                        <span style="color:rgba(255,255,255,0.3); font-size:0.8rem;">@feedback.SentDate.ToString("dd MMM")</span>
+                                    </div>
+                                    <p style="color:rgba(255,255,255,0.4); font-size:0.9rem; margin:5px 0;">@feedback.Message</p>
+                                    <span style="color:#FFD93D;">
+                                        @for (int i = 0; i < feedback.Rating; i++)
+                                        {
+                                            <i class="fas fa-star"></i>
+                                        }
+                                        @for (int i = feedback.Rating; i < 5; i++)
+                                        {
+                                            <i class="fas fa-star" style="color:rgba(255,255,255,0.1);"></i>
+                                        }
+                                    </span>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p style="color:rgba(255,255,255,0.3); text-align:center;">No feedbacks yet</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

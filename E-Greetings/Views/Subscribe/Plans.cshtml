@@ -1,0 +1,183 @@
+﻿﻿@{
+ViewData["Title"] = "Subscription Plans - E-Greetings";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .plans-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+
+    .plan-card {
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 24px;
+        padding: 40px 30px;
+        text-align: center;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        height: 100%;
+        position: relative;
+        overflow: visible;
+    }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(108, 99, 255, 0.15);
+            border-color: rgba(108, 99, 255, 0.3);
+        }
+
+        .plan-card.popular {
+            border: 2px solid #6C63FF;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(108,99,255,0.05));
+        }
+
+        .plan-card .popular-badge {
+            position: absolute;
+            top: -12px;
+            right: 20px;
+            background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+            padding: 6px 22px;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: #FFFFFF;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            z-index: 10;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+            white-space: nowrap;
+        }
+
+        .plan-card .price {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #6C63FF;
+            margin: 10px 0 0;
+        }
+
+            .plan-card .price span {
+                font-size: 1rem;
+                color: rgba(255,255,255,0.3);
+                font-weight: 400;
+            }
+
+        .plan-card ul li {
+            padding: 10px 0;
+            color: rgba(255,255,255,0.5);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+            .plan-card ul li:last-child {
+                border-bottom: none;
+            }
+
+            .plan-card ul li .fa-check {
+                color: #6C63FF;
+            }
+
+            .plan-card ul li .fa-times {
+                color: #FF6B6B;
+            }
+</style>
+
+<section class="plans-section">
+    <!-- ANIMATED BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="text-center" data-aos="fade-up">
+            <h2 style="font-size:2.8rem; font-weight:700; color:#FFFFFF; margin-bottom:10px;">
+                Choose Your <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Plan</span>
+            </h2>
+            <p style="color:rgba(255,255,255,0.4); font-size:1.1rem;">Get daily greeting cards delivered to your inbox</p>
+        </div>
+
+        <div class="row g-4 mt-4 justify-content-center">
+            <!-- Free Plan -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="plan-card">
+                    <h3 style="color:#FFFFFF; font-weight:700;">Free</h3>
+                    <p style="color:rgba(255,255,255,0.4);">Basic Features</p>
+                    <div class="price">$0 <span>/ month</span></div>
+                    <ul class="list-unstyled mt-4" style="text-align:left;">
+                        <li><i class="fas fa-check"></i> Send 5 cards/month</li>
+                        <li><i class="fas fa-check"></i> Basic templates</li>
+                        <li><i class="fas fa-times"></i> Daily delivery</li>
+                        <li><i class="fas fa-times"></i> Priority support</li>
+                    </ul>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-register" style="width:100%; padding:12px; margin-top:10px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; text-decoration:none; display:inline-block;">
+                            <i class="fas fa-check-circle"></i> Your Plan
+                        </a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Account" asp-action="Register" class="btn btn-register" style="width:100%; padding:12px; margin-top:10px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; text-decoration:none; display:inline-block;">
+                            <i class="fas fa-rocket"></i> Get Started Free
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Premium Plan -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="plan-card popular">
+                    <span class="popular-badge">🔥 POPULAR</span>
+                    <h3 style="color:#FFFFFF; font-weight:700;">Premium</h3>
+                    <p style="color:rgba(255,255,255,0.4);">Unlimited Features</p>
+                    <div class="price">$9.99 <span>/ month</span></div>
+                    <ul class="list-unstyled mt-4" style="text-align:left;">
+                        <li><i class="fas fa-check"></i> Unlimited cards</li>
+                        <li><i class="fas fa-check"></i> All templates</li>
+                        <li><i class="fas fa-check"></i> Daily delivery (10+ emails)</li>
+                        <li><i class="fas fa-check"></i> Priority support</li>
+                    </ul>
+                    <a asp-controller="Subscribe" asp-action="Payment" class="btn btn-login" style="width:100%; padding:12px; margin-top:10px; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600; text-decoration:none; display:inline-block;">
+                        <i class="fas fa-crown"></i> Subscribe Now
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

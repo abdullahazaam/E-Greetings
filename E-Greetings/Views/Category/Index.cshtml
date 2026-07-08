@@ -1,0 +1,104 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Categories - E-Greetings";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .categories-page {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+</style>
+
+<section class="categories-page">
+    <!-- ANIMATED GRADIENT BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="text-center" data-aos="fade-up">
+            <h2 style="font-size:2.8rem; font-weight:700; color:#FFFFFF;">
+                All <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Categories</span>
+            </h2>
+            <p style="color:rgba(255,255,255,0.4);">Find the perfect card for every occasion</p>
+        </div>
+
+        <div class="row g-4 mt-3">
+            @foreach (var category in Model)
+            {
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <a asp-action="Details" asp-route-id="@category.CategoryId" style="text-decoration:none;">
+                        <div class="category-card">
+                            <span class="icon" style="font-size:4rem; display:block; margin-bottom:20px;">
+                                @if (category.Name == "Birthday")
+                                {
+                                    <i class="fas fa-birthday-cake"></i>
+                                }
+                                else if (category.Name == "Wedding")
+                                {
+                                    <i class="fas fa-ring"></i>
+                                }
+                                else if (category.Name == "New Year")
+                                {
+                                    <i class="fas fa-calendar-alt"></i>
+                                }
+                                else if (category.Name == "Festivals")
+                                {
+                                    <i class="fas fa-gift"></i>
+                                }
+                                else
+                                {
+                                    <i class="fas fa-greeting"></i>
+                                }
+                            </span>
+                            <h5 style="font-weight:600; color:#FFFFFF;">@category.Name</h5>
+                            <p style="color:rgba(255,255,255,0.4);">@category.Description</p>
+                            <p style="color:#6C63FF; font-weight:600;">
+                                <i class="fas fa-arrow-right"></i> View Templates
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,118 @@
+﻿@model Template
+@{
+    ViewData["Title"] = "Add Template - Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var categories = ViewBag.Categories as List<Category>;
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .admin-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+</style>
+
+<section class="admin-section">
+    <!-- ANIMATED GRADIENT BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:30px; padding:40px;">
+                    <h2 style="color:#FFFFFF; font-weight:700; text-align:center;">Add New Template</h2>
+                    <p style="color:rgba(255,255,255,0.4); text-align:center;">Create a new card template</p>
+
+                    <form asp-action="AddTemplate" method="post">
+                        <div class="mb-3">
+                            <label asp-for="CategoryId" class="form-label" style="color:rgba(255,255,255,0.7);">Category</label>
+                            <select asp-for="CategoryId" class="form-select" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;">
+                                <option value="">Select Category</option>
+                                @foreach (var cat in categories)
+                                {
+                                    <option value="@cat.CategoryId">@cat.Name</option>
+                                }
+                            </select>
+                            <span asp-validation-for="CategoryId" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Title" class="form-label" style="color:rgba(255,255,255,0.7);">Title</label>
+                            <input asp-for="Title" class="form-control" placeholder="Happy Birthday Card" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Description" class="form-label" style="color:rgba(255,255,255,0.7);">Description</label>
+                            <textarea asp-for="Description" class="form-control" rows="3" placeholder="Card description..." style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ImagePath" class="form-label" style="color:rgba(255,255,255,0.7);">Image URL</label>
+                            <input asp-for="ImagePath" class="form-control" placeholder="https://example.com/card.jpg" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;" />
+                            <span asp-validation-for="ImagePath" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="BackgroundColor" class="form-label" style="color:rgba(255,255,255,0.7);">Background Color (Hex)</label>
+                            <input asp-for="BackgroundColor" class="form-control" placeholder="#6C63FF" style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;" />
+                        </div>
+
+                        <button type="submit" class="btn btn-login" style="width:100%; padding:14px; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600;">
+                            <i class="fas fa-plus"></i> Add Template
+                        </button>
+                    </form>
+
+                    <div class="mt-3 text-center">
+                        <a asp-action="Templates" class="btn btn-register" style="text-decoration:none; padding:10px 30px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                            <i class="fas fa-arrow-left"></i> Back to Templates
+                        </a>
+                        <a asp-action="Dashboard" class="btn btn-register" style="text-decoration:none; padding:10px 30px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block; margin-left:10px;">
+                            <i class="fas fa-home"></i> Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

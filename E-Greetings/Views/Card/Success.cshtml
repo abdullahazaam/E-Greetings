@@ -1,0 +1,171 @@
+﻿@model Card
+@{
+    ViewData["Title"] = "Card Sent! - E-Greetings";
+    var cardUrl = Url.Action("ViewCard", "Card", new { id = Model.CardId }, Context.Request.Scheme);
+}
+
+<style>
+    .share-btn {
+        padding: 10px 25px;
+        border-radius: 50px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .share-btn.whatsapp {
+            background: #25D366;
+            color: #FFFFFF;
+        }
+
+        .share-btn.facebook {
+            background: #1877f2;
+            color: #FFFFFF;
+        }
+
+        .share-btn.twitter {
+            background: #1DA1F2;
+            color: #FFFFFF;
+        }
+
+        .share-btn.linkedin {
+            background: #0077B5;
+            color: #FFFFFF;
+        }
+
+        .share-btn.copy {
+            background: rgba(255,255,255,0.08);
+            color: #FFFFFF;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+            .share-btn.copy:hover {
+                background: rgba(255,255,255,0.15);
+            }
+
+    .toast-msg {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+        color: #FFFFFF;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 600;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+        z-index: 999;
+        box-shadow: 0 10px 40px rgba(108,99,255,0.3);
+    }
+
+        .toast-msg.show {
+            opacity: 1;
+        }
+</style>
+
+<section style="padding-top:120px; min-height:80vh; background:#0F0F1A; display:flex; align-items:center;">
+    <div class="container text-center">
+        <div data-aos="zoom-in">
+            <!-- SUCCESS ICON -->
+            <div style="width:100px; height:100px; border-radius:50%; background:linear-gradient(135deg, #6C63FF, #FF6B6B); margin:0 auto; display:flex; align-items:center; justify-content:center;">
+                <i class="fas fa-check" style="font-size:3rem; color:#FFFFFF;"></i>
+            </div>
+
+            <h2 style="color:#FFFFFF; font-weight:700; margin-top:30px;">🎉 Card Sent Successfully!</h2>
+            <p style="color:rgba(255,255,255,0.4); font-size:1.1rem;">
+                Your card has been sent to <strong style="color:#FFFFFF;">@Model.RecipientEmail</strong>
+            </p>
+            <p style="color:rgba(255,255,255,0.3);">Card ID: #@Model.CardId</p>
+
+            <!-- ===== SOCIAL SHARING BUTTONS ===== -->
+            <div style="margin-top:30px;">
+                <h6 style="color:rgba(255,255,255,0.3); font-size:0.8rem; letter-spacing:2px; text-transform:uppercase; margin-bottom:12px;">
+                    <i class="fas fa-share-alt"></i> Share this card
+                </h6>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center;">
+                    <!-- WhatsApp -->
+                    <a href="https://wa.me/?text=Hey! Check out this beautiful card: @cardUrl"
+                       target="_blank" class="share-btn whatsapp">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a>
+
+                    <!-- Facebook -->
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=@cardUrl"
+                       target="_blank" class="share-btn facebook">
+                        <i class="fab fa-facebook-f"></i> Facebook
+                    </a>
+
+                    <!-- Twitter -->
+                    <a href="https://twitter.com/intent/tweet?text=Hey! Check out this beautiful card!&url=@cardUrl"
+                       target="_blank" class="share-btn twitter">
+                        <i class="fab fa-twitter"></i> Twitter
+                    </a>
+
+                    <!-- LinkedIn -->
+                    <a href="https://www.linkedin.com/sharing/share-offsite/?url=@cardUrl"
+                       target="_blank" class="share-btn linkedin">
+                        <i class="fab fa-linkedin-in"></i> LinkedIn
+                    </a>
+
+                    <!-- Copy Link -->
+                    <button onclick="copyLink()" class="share-btn copy">
+                        <i class="fas fa-copy"></i> Copy Link
+                    </button>
+                </div>
+                <p style="color:rgba(255,255,255,0.2); font-size:0.8rem; margin-top:10px;">
+                    Share this card with your loved ones on any platform!
+                </p>
+            </div>
+
+            <!-- ===== BUTTONS ===== -->
+            <div class="mt-4">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-login" style="padding:12px 40px; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600; text-decoration:none; display:inline-block;">
+                    <i class="fas fa-home"></i> Back to Home
+                </a>
+                <a asp-controller="Card" asp-action="MyCards" class="btn btn-register" style="padding:12px 40px; margin-left:10px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; text-decoration:none; display:inline-block;">
+                    <i class="fas fa-history"></i> My Cards
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Toast Message -->
+<div class="toast-msg" id="toastMsg">✅ Link copied to clipboard!</div>
+
+<script>
+    function copyLink() {
+        var url = '@cardUrl';
+        if (navigator.clipboard) {
+            navigator.clipboard.writeText(url).then(function() {
+                showToast();
+            });
+        } else {
+            var textarea = document.createElement('textarea');
+            textarea.value = url;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast();
+        }
+    }
+
+    function showToast() {
+        var toast = document.getElementById('toastMsg');
+        toast.classList.add('show');
+        setTimeout(function() {
+            toast.classList.remove('show');
+        }, 3000);
+    }
+</script>

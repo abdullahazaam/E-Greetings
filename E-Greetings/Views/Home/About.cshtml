@@ -1,0 +1,509 @@
+﻿﻿@{
+ViewData["Title"] = "About Us - E-Greetings";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .about-section {
+        position: relative;
+        overflow: hidden;
+        padding: 50px 0 80px;
+        min-height: 0vh;
+        background: #0F0F1A;
+    }
+
+    /* ===== CREATOR BOX ===== */
+    .creator-box {
+        background: rgba(255,255,255,0.04);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.06);
+        border-radius: 24px;
+        padding: 30px 35px;
+        transition: all 0.4s ease;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+        .creator-box:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108,99,255,0.25);
+            box-shadow: 0 20px 60px rgba(108,99,255,0.08);
+        }
+
+        .creator-box .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 2.5rem;
+            color: #FFFFFF;
+            border: 3px solid rgba(255,255,255,0.06);
+        }
+
+        .creator-box .info {
+            flex: 1;
+        }
+
+            .creator-box .info h3 {
+                color: #FFFFFF;
+                font-weight: 700;
+                font-size: 1.8rem;
+                margin-bottom: 0;
+            }
+
+            .creator-box .info .title-role {
+                color: #6C63FF;
+                font-weight: 500;
+                font-size: 0.9rem;
+                letter-spacing: 0.3px;
+            }
+
+            .creator-box .info .bio-text {
+                color: rgba(255,255,255,0.5);
+                font-size: 0.9rem;
+                line-height: 1.7;
+                margin: 6px 0 12px;
+                max-width: 550px;
+            }
+
+            /* ✅ SOCIAL ICONS - RIGHT SIDE, CIRCLE KE MIDDLE */
+            .creator-box .info .social {
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                gap: 8px;
+                margin-top: 5px;
+            }
+
+                .creator-box .info .social a {
+                    display: inline-flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.04);
+                    color: rgba(255,255,255,0.35);
+                    transition: all 0.3s ease;
+                    font-size: 1.2rem;
+                    text-decoration: none;
+                }
+
+                    .creator-box .info .social a:hover {
+                        background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+                        color: #FFFFFF;
+                        transform: translateY(-3px);
+                    }
+
+    /* ===== TEAM CARD - ICON PERFECT CENTER ===== */
+    .team-card {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 16px;
+        padding: 20px 12px;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+        .team-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108,99,255,0.15);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* ✅ ICON - PERFECT CENTER */
+        .team-card .avatar-sm {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, rgba(108,99,255,0.12), rgba(255,107,107,0.12));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            border: 2px solid rgba(108,99,255,0.08);
+            flex-shrink: 0;
+            text-align: center;
+            line-height: 1;
+        }
+
+            .team-card .avatar-sm i {
+                font-size: 1.8rem;
+                color: #6C63FF;
+                display: inline-block;
+                text-align: center;
+                line-height: 1;
+            }
+
+        .team-card h6 {
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 2px;
+        }
+
+        .team-card .role-text {
+            color: rgba(255,255,255,0.35);
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+        }
+
+    /* ===== INFO BOX ===== */
+    .info-box {
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 20px;
+        padding: 28px 25px;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+        .info-box:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108,99,255,0.12);
+        }
+
+        .info-box .icon-lg {
+            font-size: 1.8rem;
+            color: #6C63FF;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .info-box h5 {
+            color: #FFFFFF;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .info-box p {
+            color: rgba(255,255,255,0.45);
+            font-size: 0.9rem;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        .info-box .stat-list {
+            list-style: none;
+            padding: 0;
+            margin: 12px 0 0;
+        }
+
+            .info-box .stat-list li {
+                color: rgba(255,255,255,0.35);
+                padding: 3px 0;
+                font-size: 0.85rem;
+            }
+
+                .info-box .stat-list li i {
+                    color: #6C63FF;
+                    margin-right: 8px;
+                }
+
+    /* ===== STATS ===== */
+    .stats-card {
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 16px;
+        padding: 22px 15px;
+        text-align: center;
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+        .stats-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(108,99,255,0.15);
+        }
+
+        .stats-card .number {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #FFFFFF;
+            line-height: 1.2;
+        }
+
+        .stats-card .label {
+            color: rgba(255,255,255,0.3);
+            font-size: 0.75rem;
+            margin-top: 2px;
+        }
+
+        .stats-card .icon-sm {
+            font-size: 1.2rem;
+            color: #6C63FF;
+            margin-bottom: 4px;
+            display: block;
+        }
+
+    /* ===== QUOTE ===== */
+    .quote-box {
+        background: rgba(255,255,255,0.02);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 20px;
+        padding: 25px 25px;
+        text-align: center;
+        border-left: 4px solid #6C63FF;
+    }
+
+        .quote-box .quote-icon {
+            font-size: 1.3rem;
+            color: #6C63FF;
+            opacity: 0.25;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .quote-box .quote-text {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.95rem;
+            font-style: italic;
+            line-height: 1.7;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        .quote-box .quote-author {
+            color: rgba(255,255,255,0.2);
+            font-size: 0.75rem;
+            font-style: normal;
+            margin-top: 4px;
+        }
+
+    /* ===== SECTION TITLE ===== */
+    .section-title-small {
+        color: rgba(255,255,255,0.3);
+        text-align: center;
+        font-weight: 400;
+        font-size: 0.7rem;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        margin-top: 6px;
+    }
+
+        .section-title-small i {
+            color: #6C63FF;
+            margin-right: 8px;
+        }
+
+    @@media (max-width: 768px) {
+        .creator-box {
+            flex-direction: column;
+            text-align: center;
+            padding: 25px 20px;
+        }
+
+            .creator-box .avatar {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+
+            .creator-box .info .bio-text {
+                max-width: 100%;
+            }
+
+        .stats-card .number {
+            font-size: 1.4rem;
+        }
+
+        .team-card h6 {
+            font-size: 0.85rem;
+        }
+
+        .team-card .role-text {
+            font-size: 0.7rem;
+        }
+    }
+</style>
+
+<section class="about-section">
+    <!-- ANIMATED BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:160px; height:160px; border-radius:50%; background:rgba(108,99,255,0.06); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:250px; height:250px; border-radius:50%; background:rgba(255,107,107,0.04); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:90px; height:90px; border-radius:50%; background:rgba(255,217,61,0.03); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+
+        <!-- PAGE TITLE -->
+        <div class="text-center" data-aos="fade-up">
+            <h2 style="font-size:2.2rem; font-weight:700; color:#FFFFFF; margin-bottom:4px;">
+                About <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">E-Greetings</span>
+            </h2>
+            <p style="color:rgba(255,255,255,0.3); font-size:0.9rem;">Spreading joy through digital cards</p>
+        </div>
+
+        <!-- ===== CREATOR BOX ===== -->
+        <div class="row mt-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-12">
+                <div class="creator-box">
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="info">
+                        <h3>Abdullah Azaam</h3>
+                        <p class="title-role">Founder &amp; Lead Developer</p>
+                        <p class="bio-text">
+                            Passionate developer and entrepreneur dedicated to leveraging technology
+                            to spread joy and connect people through meaningful digital experiences.
+                        </p>
+                        <!-- ✅ SOCIAL ICONS - RIGHT SIDE (FLEX-START) -->
+                        <div class="social">
+                            <a href="#"><i class="fas fa-phone"></i></a>
+                            <a href="#"><i class="fas fa-envelope"></i></a>
+                            <a href="#"><i class="fab fa-whatsapp"></i></a>
+                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TEAM MEMBERS ===== -->
+        <div class="row mt-4" data-aos="fade-up" data-aos-delay="150">
+            <div class="col-12">
+                <p class="section-title-small"><i class="fas fa-users"></i> The Team</p>
+            </div>
+
+            @{
+                var team = new[] {
+                        new { Name = "Muhammad Hassan", Role = "Developer" },
+                        new { Name = "Muhammad Anas", Role = "Developer" },
+                        new { Name = "Arisha", Role = "UI/UX Designer" },
+                        new { Name = "Syed Faizan", Role = "QA Engineer" }
+                        };
+            }
+            @foreach (var member in team)
+            {
+                <div class="col-lg-3 col-md-6 col-6">
+                    <div class="team-card">
+                        <div class="avatar-sm">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h6>@member.Name</h6>
+                        <p class="role-text">@member.Role</p>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- ===== MISSION & VISION ===== -->
+        <div class="row g-4 mt-4">
+            <div class="col-lg-6" data-aos="fade-right" data-aos-delay="200">
+                <div class="info-box">
+                    <span class="icon-lg"><i class="fas fa-bullseye"></i></span>
+                    <h5>Our Mission</h5>
+                    <p>E-Greetings is a digital card sending platform that allows users to create, personalize, and send beautiful e-cards to their loved ones.</p>
+                    <p style="color:rgba(255,255,255,0.3);">Founded in 2026, we aim to make the world a happier place one card at a time.</p>
+                    <ul class="stat-list">
+                        <li><i class="fas fa-check-circle"></i> 10,000+ Cards Sent</li>
+                        <li><i class="fas fa-check-circle"></i> 500+ Happy Users</li>
+                        <li><i class="fas fa-check-circle"></i> 24/7 Support</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-6" data-aos="fade-left" data-aos-delay="250">
+                <div class="info-box">
+                    <span class="icon-lg"><i class="fas fa-eye"></i></span>
+                    <h5>Our Vision</h5>
+                    <p>To become the world's leading digital card platform, connecting millions of people through personalized, heartfelt greetings that transcend boundaries.</p>
+                    <p style="color:rgba(255,255,255,0.3);">We believe a simple card can brighten someone's day.</p>
+                    <ul class="stat-list">
+                        <li><i class="fas fa-globe"></i> Global Reach</li>
+                        <li><i class="fas fa-heart"></i> Spreading Joy</li>
+                        <li><i class="fas fa-users"></i> Community First</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== STATS ===== -->
+        <div class="row g-3 mt-4" data-aos="fade-up" data-aos-delay="300">
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <span class="icon-sm"><i class="fas fa-envelope"></i></span>
+                    <div class="number">10,000+</div>
+                    <div class="label">Cards Sent</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <span class="icon-sm"><i class="fas fa-users"></i></span>
+                    <div class="number">500+</div>
+                    <div class="label">Happy Users</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <span class="icon-sm"><i class="fas fa-headset"></i></span>
+                    <div class="number">24/7</div>
+                    <div class="label">Support</div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stats-card">
+                    <span class="icon-sm"><i class="fas fa-palette"></i></span>
+                    <div class="number">100+</div>
+                    <div class="label">Templates</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== QUOTE ===== -->
+        <div class="row mt-5" data-aos="fade-up" data-aos-delay="350">
+            <div class="col-12">
+                <div class="quote-box">
+                    <span class="quote-icon"><i class="fas fa-quote-left"></i></span>
+                    <p class="quote-text">"A simple card can brighten someone's day and strengthen relationships across the globe. Spread joy, one card at a time."</p>
+                    <p class="quote-author">— Abdullah Azaam, Creator of E-Greetings</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>

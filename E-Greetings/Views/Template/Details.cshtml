@@ -1,0 +1,52 @@
+﻿@model Template
+@{
+    ViewData["Title"] = $"{Model.Title} - E-Greetings";
+}
+
+<section style="padding-top:120px; min-height:80vh; background:#0F0F1A;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6" data-aos="fade-right">
+                <img src="@Model.ImagePath" alt="@Model.Title"
+                     style="width:100%; border-radius:20px; border:1px solid rgba(255,255,255,0.05);"
+                     onerror="this.src='https://via.placeholder.com/600x400/1A1A2E/FFFFFF?text=🎴+Card+Preview'" />
+            </div>
+            <div class="col-lg-6" data-aos="fade-left">
+                <h2 style="color:#FFFFFF; font-weight:700;">@Model.Title</h2>
+                <p style="color:rgba(255,255,255,0.4);">
+                    <i class="fas fa-tag"></i> Category: @Model.Category?.Name
+                </p>
+                <p style="color:rgba(255,255,255,0.6); font-size:1.1rem; margin-top:20px;">
+                    @Model.Description
+                </p>
+
+                <!-- ===== SIMPLE BUTTON - NO COMPLEX STYLES ===== -->
+                <div style="margin-top:30px;">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <!-- ✅ DIRECT URL - NO ASP ROUTE -->
+                        <a href="/Card/Create?templateId=@Model.TemplateId"
+                           class="btn btn-login"
+                           style="display:inline-block; padding:15px 50px; font-size:1.1rem; text-decoration:none; cursor:pointer; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600; transition:all 0.3s ease;">
+                            <i class="fas fa-pen"></i> Personalize This Card
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="/Account/Login"
+                           class="btn btn-login"
+                           style="display:inline-block; padding:15px 50px; font-size:1.1rem; text-decoration:none; cursor:pointer; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600; transition:all 0.3s ease;">
+                            <i class="fas fa-sign-in-alt"></i> Login to Personalize
+                        </a>
+                    }
+                </div>
+
+                <div class="mt-4">
+                    <a href="/Template/Index" class="btn btn-register" style="text-decoration:none; padding:10px 30px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                        <i class="fas fa-arrow-left"></i> Back to Templates
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

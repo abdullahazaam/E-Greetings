@@ -1,0 +1,249 @@
+﻿@model Card
+@{
+    ViewData["Title"] = "Personalize Card - E-Greetings";
+    var template = ViewBag.Template as Template;
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .create-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+
+    .form-card {
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 30px;
+        padding: 40px;
+    }
+
+    .form-control {
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        color: #FFFFFF !important;
+        padding: 12px 16px;
+        border-radius: 12px;
+    }
+
+        .form-control:focus {
+            background: rgba(255,255,255,0.08) !important;
+            border-color: #6C63FF !important;
+            box-shadow: 0 0 0 3px rgba(108,99,255,0.2) !important;
+            color: #FFFFFF !important;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.3) !important;
+        }
+
+    .form-label {
+        color: rgba(255,255,255,0.7);
+        font-weight: 500;
+    }
+
+    .text-danger {
+        color: #FF6B6B !important;
+    }
+
+    .btn-login {
+        background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+        border: none;
+        padding: 14px;
+        border-radius: 50px;
+        color: #FFFFFF;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+        .btn-login:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(108,99,255,0.3);
+            color: #FFFFFF;
+        }
+
+    .alert-danger-custom {
+        background: rgba(255,107,107,0.15);
+        border: 1px solid #FF6B6B;
+        color: #FF6B6B;
+        border-radius: 12px;
+        padding: 15px 20px;
+    }
+
+    .alert-success-custom {
+        background: rgba(76,175,80,0.15);
+        border: 1px solid #4CAF50;
+        color: #4CAF50;
+        border-radius: 12px;
+        padding: 15px 20px;
+    }
+</style>
+
+<section class="create-section">
+    <!-- ANIMATED BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="form-card">
+                    <h2 style="color:#FFFFFF; font-weight:700; text-align:center;">
+                        ✨ Personalize Your <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Card</span>
+                    </h2>
+                    <p style="color:rgba(255,255,255,0.4); text-align:center; margin-bottom:30px;">
+                        Template: <strong style="color:#FFFFFF;">@template?.Title</strong>
+                    </p>
+
+                    @if (TempData["Error"] != null)
+                    {
+                        <div class="alert alert-danger-custom alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i> @TempData["Error"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post" id="createForm">
+                        <input type="hidden" asp-for="TemplateId" value="@template?.TemplateId" />
+
+                        <!-- Recipient Name -->
+                        <div class="mb-3">
+                            <label asp-for="RecipientName" class="form-label">
+                                <i class="fas fa-user" style="color:#6C63FF;"></i> Recipient Name <span style="color:#FF6B6B;">*</span>
+                            </label>
+                            <input asp-for="RecipientName" class="form-control" placeholder="John Doe" required />
+                            <span asp-validation-for="RecipientName" class="text-danger"></span>
+                        </div>
+
+                        <!-- Recipient Email -->
+                        <div class="mb-3">
+                            <label asp-for="RecipientEmail" class="form-label">
+                                <i class="fas fa-envelope" style="color:#6C63FF;"></i> Recipient Email <span style="color:#FF6B6B;">*</span>
+                            </label>
+                            <input asp-for="RecipientEmail" class="form-control" placeholder="friend@example.com" type="email" required />
+                            <span asp-validation-for="RecipientEmail" class="text-danger"></span>
+                        </div>
+
+                        <!-- Subject -->
+                        <div class="mb-3">
+                            <label asp-for="Subject" class="form-label">
+                                <i class="fas fa-tag" style="color:#6C63FF;"></i> Subject <span style="color:#FF6B6B;">*</span>
+                            </label>
+                            <input asp-for="Subject" class="form-control" placeholder="Happy Birthday!" required />
+                            <span asp-validation-for="Subject" class="text-danger"></span>
+                        </div>
+
+                        <!-- Message -->
+                        <div class="mb-3">
+                            <label asp-for="Message" class="form-label">
+                                <i class="fas fa-comment" style="color:#6C63FF;"></i> Your Message <span style="color:#FF6B6B;">*</span>
+                            </label>
+                            <textarea asp-for="Message" class="form-control" rows="5" placeholder="Write your heartfelt message here..." required></textarea>
+                            <span asp-validation-for="Message" class="text-danger"></span>
+                        </div>
+
+                        <!-- Photo URL - Optional -->
+                        <div class="mb-3">
+                            <label asp-for="PhotoPath" class="form-label">
+                                <i class="fas fa-image" style="color:#6C63FF;"></i> Photo URL <span style="color:rgba(255,255,255,0.3);">(Optional)</span>
+                            </label>
+                            <input asp-for="PhotoPath" class="form-control" placeholder="https://example.com/photo.jpg" />
+                            <small style="color:rgba(255,255,255,0.3);">Add a personal photo to your card</small>
+                        </div>
+
+                        <!-- Schedule - OPTIONAL -->
+                        <div class="mb-3">
+                            <label class="form-label" style="color:rgba(255,255,255,0.7);">
+                                <i class="fas fa-calendar-alt" style="color:#6C63FF;"></i> Schedule Card <span style="color:rgba(255,255,255,0.3);">(Optional)</span>
+                            </label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <input type="date" id="scheduleDate" name="scheduleDate" class="form-control"
+                                           min="@DateTime.Now.ToString("yyyy-MM-dd")"
+                                           style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="time" id="scheduleTime" name="scheduleTime" class="form-control"
+                                           style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:#FFFFFF; padding:12px; border-radius:12px;" />
+                                </div>
+                            </div>
+                            <small style="color:rgba(255,255,255,0.3);">
+                                <i class="fas fa-info-circle"></i> Leave empty to send immediately
+                            </small>
+                        </div>
+
+                        <button type="submit" class="btn btn-login">
+                            <i class="fas fa-arrow-right"></i> <span id="submitBtnText">Next: Send Card</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        // ✅ Schedule fields change par button text update
+        document.getElementById('scheduleDate').addEventListener('change', function() {
+            updateButtonText();
+        });
+
+        document.getElementById('scheduleTime').addEventListener('change', function() {
+            updateButtonText();
+        });
+
+        function updateButtonText() {
+            var date = document.getElementById('scheduleDate').value;
+            var time = document.getElementById('scheduleTime').value;
+            var btnText = document.getElementById('submitBtnText');
+
+            if (date && time) {
+                btnText.textContent = 'Schedule Card';
+            } else {
+                btnText.textContent = 'Next: Send Card';
+            }
+        }
+    </script>
+}

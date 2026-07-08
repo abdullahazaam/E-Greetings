@@ -1,0 +1,420 @@
+﻿@model Card
+@{
+    ViewData["Title"] = "View Card - E-Greetings";
+    Layout = null;
+    var cardUrl = Url.Action("ViewCard", "Card", new { id = Model.CardId }, Context.Request.Scheme);
+
+    // ✅ Encode URL for sharing
+    var encodedUrl = Uri.EscapeDataString(cardUrl);
+    var encodedMessage = Uri.EscapeDataString($"Hey! Check out this beautiful card from {Model.Sender?.FullName ?? "E-Greetings"}");
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>View Card - E-Greetings</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0F0F1A;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .card-container {
+            background: rgba(255,255,255,0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 30px;
+            padding: 50px 40px;
+            max-width: 650px;
+            width: 100%;
+            text-align: center;
+        }
+
+            .card-container .card-image {
+                width: 100%;
+                border-radius: 20px;
+                margin: 20px 0;
+                border: 1px solid rgba(255,255,255,0.05);
+            }
+
+            .card-container h2 {
+                color: #FFFFFF;
+                font-weight: 700;
+            }
+
+            .card-container .message {
+                color: rgba(255,255,255,0.6);
+                font-size: 1rem;
+                line-height: 1.8;
+                margin: 15px 0;
+            }
+
+            .card-container .sender {
+                color: rgba(255,255,255,0.3);
+                font-size: 0.9rem;
+            }
+
+        /* ===== SHARE BUTTONS ===== */
+        .share-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .share-title {
+            color: rgba(255,255,255,0.2);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .share-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .share-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 8px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.7rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            color: #FFFFFF;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.05);
+            min-width: 60px;
+        }
+
+            .share-btn:hover {
+                transform: translateY(-4px) scale(1.05);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            }
+
+            .share-btn i {
+                font-size: 1.5rem;
+                margin-bottom: 4px;
+            }
+
+            .share-btn span {
+                font-size: 0.6rem;
+                opacity: 0.8;
+            }
+
+            /* Platform Colors */
+            .share-btn.whatsapp {
+                background: #25D366;
+                border-color: #25D366;
+            }
+
+            .share-btn.facebook {
+                background: #1877f2;
+                border-color: #1877f2;
+            }
+
+            .share-btn.twitter {
+                background: #1DA1F2;
+                border-color: #1DA1F2;
+            }
+
+            .share-btn.linkedin {
+                background: #0077B5;
+                border-color: #0077B5;
+            }
+
+            .share-btn.instagram {
+                background: #E4405F;
+                border-color: #E4405F;
+            }
+
+            .share-btn.telegram {
+                background: #0088cc;
+                border-color: #0088cc;
+            }
+
+            .share-btn.snapchat {
+                background: #FFFC00;
+                border-color: #FFFC00;
+                color: #000000;
+            }
+
+            .share-btn.reddit {
+                background: #FF4500;
+                border-color: #FF4500;
+            }
+
+            .share-btn.pinterest {
+                background: #BD081C;
+                border-color: #BD081C;
+            }
+
+            .share-btn.email {
+                background: #6C63FF;
+                border-color: #6C63FF;
+            }
+
+            .share-btn.copy {
+                background: rgba(255,255,255,0.08);
+                border-color: rgba(255,255,255,0.1);
+            }
+
+                .share-btn.copy:hover {
+                    background: rgba(255,255,255,0.15);
+                }
+
+            .share-btn.more {
+                background: #2A2A3E;
+                border-color: rgba(255,255,255,0.1);
+            }
+
+        .toast-msg {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+            color: #FFFFFF;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 999;
+            box-shadow: 0 10px 40px rgba(108,99,255,0.3);
+        }
+
+            .toast-msg.show {
+                opacity: 1;
+            }
+
+        /* ===== RESPONSIVE ===== */
+        @@media (max-width: 480px) {
+            .card-container {
+                padding: 30px 20px;
+            }
+
+            .share-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .share-btn {
+                padding: 10px 6px;
+                min-width: 50px;
+            }
+
+                .share-btn i {
+                    font-size: 1.2rem;
+                }
+
+                .share-btn span {
+                    font-size: 0.5rem;
+                }
+        }
+
+        @@media (max-width: 380px) {
+            .share-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <p class="sender">💌 Sent with love by <strong style="color:#6C63FF;">@Model.Sender?.FullName</strong></p>
+        <h2>Dear @Model.RecipientName,</h2>
+        <div class="message">@Model.Message</div>
+        <img src="@(!string.IsNullOrEmpty(Model.PhotoPath) ? Model.PhotoPath : Model.Template?.ImagePath)"
+             alt="Card" class="card-image"
+             onerror="this.src='https://via.placeholder.com/600x400/1A1A2E/FFFFFF?text=💌+Greeting+Card'" />
+
+        <!-- ===== SHARE SECTION ===== -->
+        <div class="share-section">
+            <div class="share-title">
+                <i class="fas fa-share-alt"></i> Share this card on your favorite platform
+            </div>
+
+            <div class="share-grid">
+                <!-- WhatsApp -->
+                <a href="https://wa.me/?text=@encodedMessage%20@encodedUrl"
+                   target="_blank" class="share-btn whatsapp" title="Share on WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                    <span>WhatsApp</span>
+                </a>
+
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/sharer/sharer.php?u=@encodedUrl"
+                   target="_blank" class="share-btn facebook" title="Share on Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                    <span>Facebook</span>
+                </a>
+
+                <!-- Twitter / X -->
+                <a href="https://twitter.com/intent/tweet?text=@encodedMessage&url=@encodedUrl"
+                   target="_blank" class="share-btn twitter" title="Share on Twitter">
+                    <i class="fab fa-twitter"></i>
+                    <span>Twitter</span>
+                </a>
+
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/sharing/share-offsite/?url=@encodedUrl"
+                   target="_blank" class="share-btn linkedin" title="Share on LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                    <span>LinkedIn</span>
+                </a>
+
+                <!-- Instagram (Native App) -->
+                <a href="https://www.instagram.com/"
+                   target="_blank" class="share-btn instagram" title="Share on Instagram">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
+
+                <!-- Telegram -->
+                <a href="https://t.me/share/url?url=@encodedUrl&text=@encodedMessage"
+                   target="_blank" class="share-btn telegram" title="Share on Telegram">
+                    <i class="fab fa-telegram-plane"></i>
+                    <span>Telegram</span>
+                </a>
+
+                <!-- Snapchat -->
+                <a href="https://www.snapchat.com/"
+                   target="_blank" class="share-btn snapchat" title="Share on Snapchat">
+                    <i class="fab fa-snapchat-ghost"></i>
+                    <span>Snapchat</span>
+                </a>
+
+                <!-- Reddit -->
+                <a href="https://reddit.com/submit?url=@encodedUrl&title=@encodedMessage"
+                   target="_blank" class="share-btn reddit" title="Share on Reddit">
+                    <i class="fab fa-reddit-alien"></i>
+                    <span>Reddit</span>
+                </a>
+
+                <!-- Pinterest -->
+                <a href="https://pinterest.com/pin/create/button/?url=@encodedUrl&description=@encodedMessage"
+                   target="_blank" class="share-btn pinterest" title="Share on Pinterest">
+                    <i class="fab fa-pinterest-p"></i>
+                    <span>Pinterest</span>
+                </a>
+
+                <!-- Email -->
+                <a href="mailto:?subject=@encodedMessage&body=Check out this beautiful card: @encodedUrl"
+                   class="share-btn email" title="Share via Email">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email</span>
+                </a>
+
+                <!-- Copy Link -->
+                <button onclick="copyLink()" class="share-btn copy" title="Copy link to clipboard">
+                    <i class="fas fa-copy"></i>
+                    <span>Copy Link</span>
+                </button>
+
+                <!-- More / Native Share -->
+                @if (Context.Request.Headers["User-Agent"].ToString().Contains("Mobile"))
+                {
+                    <button onclick="nativeShare()" class="share-btn more" title="Share via native sharing">
+                        <i class="fas fa-ellipsis-h"></i>
+                        <span>More</span>
+                    </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TOAST MESSAGE ===== -->
+    <div class="toast-msg" id="toastMsg">✅ Link copied to clipboard!</div>
+
+    <script>
+        // ===== COPY LINK FUNCTION =====
+        function copyLink() {
+            var url = '@Html.Raw(cardUrl)';
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url).then(function() {
+                    showToast('✅ Link copied to clipboard!');
+                }).catch(function() {
+                    fallbackCopy(url);
+                });
+            } else {
+                fallbackCopy(url);
+            }
+        }
+
+        function fallbackCopy(text) {
+            var textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+                showToast('✅ Link copied to clipboard!');
+            } catch (err) {
+                showToast('❌ Failed to copy link');
+            }
+            document.body.removeChild(textarea);
+        }
+
+        // ===== NATIVE SHARE (Mobile) =====
+        function nativeShare() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'E-Greetings Card',
+                    text: 'Hey! Check out this beautiful card!',
+                    url: '@Html.Raw(cardUrl)',
+                }).then(function() {
+                    console.log('Shared successfully');
+                }).catch(function(error) {
+                    console.log('Share cancelled:', error);
+                });
+            } else {
+                showToast('❌ Native sharing not supported on this device');
+            }
+        }
+
+        // ===== TOAST FUNCTION =====
+        function showToast(message) {
+            var toast = document.getElementById('toastMsg');
+            toast.textContent = message || '✅ Link copied to clipboard!';
+            toast.classList.add('show');
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // ===== KEYBOARD SHORTCUT: Ctrl+C =====
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+                // Allow default copy behavior for selected text
+            }
+        });
+    </script>
+</body>
+</html>

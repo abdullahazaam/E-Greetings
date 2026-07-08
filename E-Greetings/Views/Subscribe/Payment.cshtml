@@ -1,0 +1,170 @@
+﻿@model Subscription
+@{
+    ViewData["Title"] = "Payment - E-Greetings";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .payment-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+
+    .form-card {
+        background: rgba(255,255,255,0.03);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.05);
+        border-radius: 30px;
+        padding: 40px;
+    }
+
+    .form-control, .form-select {
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        color: #FFFFFF !important;
+        padding: 12px 16px;
+        border-radius: 12px;
+    }
+
+        .form-control:focus, .form-select:focus {
+            background: rgba(255,255,255,0.08) !important;
+            border-color: #6C63FF !important;
+            box-shadow: 0 0 0 3px rgba(108,99,255,0.2) !important;
+            color: #FFFFFF !important;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255,255,255,0.3) !important;
+        }
+
+    .form-label {
+        color: rgba(255,255,255,0.7);
+        font-weight: 500;
+    }
+
+    .alert-info-custom {
+        background: rgba(108,99,255,0.1);
+        border: 1px solid rgba(108,99,255,0.2);
+        color: #6C63FF;
+        border-radius: 12px;
+        padding: 15px 20px;
+    }
+
+        .alert-info-custom strong {
+            color: #FFFFFF;
+        }
+</style>
+
+<section class="payment-section">
+    <!-- ANIMATED BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="form-card">
+                    <h2 style="color:#FFFFFF; font-weight:700; text-align:center;">
+                        Complete Your <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Subscription</span>
+                    </h2>
+                    <p style="color:rgba(255,255,255,0.4); text-align:center; margin-bottom:30px;">
+                        Enter payment details to activate your premium plan
+                    </p>
+
+                    <form asp-action="Payment" method="post">
+                        <div class="mb-3">
+                            <label asp-for="PaymentMethod" class="form-label">
+                                <i class="fas fa-credit-card" style="color:#6C63FF;"></i> Payment Method
+                            </label>
+                            <select asp-for="PaymentMethod" class="form-select">
+                                <option value="Card">Credit Card</option>
+                                <option value="PayPal">PayPal</option>
+                                <option value="Bank Transfer">Bank Transfer</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EmailsList" class="form-label">
+                                <i class="fas fa-envelope" style="color:#6C63FF;"></i> Email List
+                            </label>
+                            <textarea asp-for="EmailsList" class="form-control" rows="4" placeholder="email1@example.com, email2@example.com, email3@example.com"></textarea>
+                            <span asp-validation-for="EmailsList" class="text-danger"></span>
+                            <small style="color:rgba(255,255,255,0.3);">Minimum 10 emails required</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="fas fa-credit-card" style="color:#6C63FF;"></i> Card Number
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="**** **** **** ****" />
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">Expiry</label>
+                                    <input type="text" class="form-control" placeholder="MM/YY" />
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="mb-3">
+                                    <label class="form-label">CVV</label>
+                                    <input type="text" class="form-control" placeholder="***" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" asp-for="Amount" value="9.99" />
+
+                        <div class="alert alert-info-custom">
+                            <i class="fas fa-info-circle"></i> You will be charged <strong>$9.99</strong> for a monthly subscription.
+                        </div>
+
+                        <button type="submit" class="btn btn-login" style="width:100%; padding:14px; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600; transition:all 0.3s ease;">
+                            <i class="fas fa-lock"></i> Pay $9.99 & Activate
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

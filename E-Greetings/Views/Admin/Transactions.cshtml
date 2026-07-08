@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Card>
+@{
+    ViewData["Title"] = "Transactions - Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .admin-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+</style>
+
+<section class="admin-section">
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 style="font-size:2.8rem; font-weight:700; color:#FFFFFF; margin-bottom:0;">
+                    All <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Transactions</span>
+                </h2>
+                <p style="color:rgba(255,255,255,0.4);">View all card transactions</p>
+            </div>
+            <div>
+                <span class="badge" style="background:#6C63FF; padding:10px 20px; border-radius:50px; font-size:1rem; color:#FFFFFF;">Total: @Model.Count()</span>
+                <a asp-action="Dashboard" class="btn btn-register" style="text-decoration:none; padding:10px 25px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block; margin-left:10px;">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+            </div>
+        </div>
+
+        <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
+            <div class="table-responsive">
+                <table class="table table-dark table-hover" style="border-color:rgba(255,255,255,0.05);">
+                    <thead>
+                        <tr><th>Card ID</th><th>Template</th><th>Sender</th><th>Recipient</th><th>Date</th><th>Status</th></tr>
+                    </thead>
+                    <tbody>
+                        @if (Model != null && Model.Any())
+                        {
+                            @foreach (var card in Model)
+                            {
+                                <tr>
+                                    <td>#@card.CardId</td>
+                                    <td>@card.Template?.Title</td>
+                                    <td>@card.Sender?.Email</td>
+                                    <td>@card.RecipientEmail</td>
+                                    <td>@card.SentDate.ToString("dd MMM yyyy, hh:mm tt")</td>
+                                    <td><span class="badge" style="background:@(card.Status == "Delivered" ? "#4CAF50" : "#FFA94D"); padding:8px 15px; border-radius:50px;">@card.Status</span></td>
+                                </tr>
+                            }
+                        }
+                        else
+                        {
+                            <tr><td colspan="6" class="text-center" style="color:rgba(255,255,255,0.3);">No transactions found</td></tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

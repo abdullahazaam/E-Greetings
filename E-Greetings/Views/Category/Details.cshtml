@@ -1,0 +1,100 @@
+﻿@model Category
+@{
+    ViewData["Title"] = $"{Model.Name} Cards - E-Greetings";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .category-details {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+</style>
+
+<section class="category-details">
+    <!-- ANIMATED GRADIENT BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="text-center" style="margin-bottom:40px;">
+            <h2 style="font-size:2.8rem; font-weight:700; color:#FFFFFF;">
+                @Model.Name <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Cards</span>
+            </h2>
+            <p style="color:rgba(255,255,255,0.4);">@Model.Description</p>
+        </div>
+
+        <div class="row">
+            @if (Model.Templates != null && Model.Templates.Any())
+            {
+                @foreach (var template in Model.Templates)
+                {
+                    <div class="col-lg-3 col-md-6" style="margin-bottom:20px;">
+                        <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); padding:20px; border-radius:20px; border:1px solid rgba(255,255,255,0.05);">
+                            <img src="@template.ImagePath" alt="@template.Title"
+                                 style="width:100%; height:200px; object-fit:cover; border-radius:15px; margin-bottom:15px;"
+                                 onerror="this.src='https://via.placeholder.com/300x200/1A1A2E/FFFFFF?text=🎴'" />
+                            <h5 style="color:#FFFFFF; font-weight:600;">@template.Title</h5>
+                            <p style="color:rgba(255,255,255,0.4); font-size:0.85rem;">@template.Description</p>
+
+                            <a href="/Card/Create?templateId=@template.TemplateId"
+                               style="display:block; width:100%; padding:12px; background:linear-gradient(135deg, #6C63FF, #FF6B6B); color:#FFFFFF; text-align:center; border-radius:50px; text-decoration:none; font-weight:600; font-size:1rem; border:none; cursor:pointer; transition:all 0.3s ease;">
+                                <i class="fas fa-pen"></i> Personalize
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="col-12 text-center">
+                    <p style="color:rgba(255,255,255,0.4);">No templates available in this category yet.</p>
+                </div>
+            }
+        </div>
+
+        <div class="text-center mt-5">
+            <a href="/Category/Index" style="padding:12px 30px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; text-decoration:none; display:inline-block;">
+                <i class="fas fa-arrow-left"></i> Back to Categories
+            </a>
+        </div>
+    </div>
+</section>

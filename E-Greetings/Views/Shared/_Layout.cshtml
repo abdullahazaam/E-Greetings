@@ -1,0 +1,440 @@
+﻿﻿﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - E-Greetings</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+
+    @* ✅ INJECT UserManager *@
+    @using Microsoft.AspNetCore.Identity
+    @inject UserManager<User> userManager
+
+    <style>
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+        }
+
+        .dropdown-menu {
+            background: #1A1A2E;
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 12px 0;
+            min-width: 240px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+            backdrop-filter: blur(10px);
+            right: 0;
+            left: auto !important;
+        }
+
+        .dropdown-menu-end {
+            right: 0 !important;
+            left: auto !important;
+        }
+
+        .dropdown-item {
+            color: rgba(255,255,255,0.8);
+            padding: 10px 24px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .dropdown-item:hover {
+                background: rgba(108,99,255,0.12);
+                color: #FFFFFF;
+            }
+
+            .dropdown-item i {
+                width: 20px;
+                text-align: center;
+                font-size: 1rem;
+                color: #6C63FF;
+            }
+
+            .dropdown-item.text-danger i {
+                color: #FF6B6B;
+            }
+
+            .dropdown-item.text-danger:hover {
+                background: rgba(255,107,107,0.12);
+            }
+
+        .dropdown-divider {
+            border-color: rgba(255,255,255,0.06);
+            margin: 6px 0;
+        }
+
+        .dropdown-user-info {
+            padding: 8px 24px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 6px;
+        }
+
+            .dropdown-user-info .user-name-display {
+                color: #FFFFFF;
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+
+        .navbar {
+            padding: 27px 0;
+            background: rgba(15,15,26,0.98) !important;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 2rem;
+            color: #FFFFFF !important;
+            padding: 0;
+            margin: 0;
+            white-space: nowrap;
+        }
+
+            .navbar-brand span {
+                background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+            }
+
+        .navbar-nav.center-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+
+            .navbar-nav.center-links .nav-link {
+                color: rgba(255,255,255,0.7) !important;
+                transition: all 0.3s ease;
+                padding: 2px 5px;
+                font-size: 1.1rem;
+                white-space: nowrap;
+                font-weight: 400;
+            }
+
+                .navbar-nav.center-links .nav-link:hover {
+                    color: #FFFFFF !important;
+                }
+
+                .navbar-nav.center-links .nav-link.active {
+                    color: #FFFFFF !important;
+                }
+
+        .navbar-nav.right-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .user-icon-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+            color: #FFFFFF;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+            .user-icon-wrapper:hover {
+                transform: scale(1.05);
+                border-color: rgba(255,255,255,0.2);
+                box-shadow: 0 0 30px rgba(108,99,255,0.25);
+            }
+
+            .user-icon-wrapper i {
+                color: #FFFFFF;
+                font-size: 1rem;
+            }
+
+        .user-name-display-nav {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 500;
+            font-size: 1.1rem;
+            white-space: nowrap;
+            transition: color 0.3s ease;
+        }
+
+            .user-name-display-nav:hover {
+                color: #FFFFFF !important;
+            }
+
+        .user-dropdown-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: rgba(255,255,255,0.7) !important;
+            text-decoration: none;
+            padding: 0;
+        }
+
+            .user-dropdown-toggle:hover {
+                color: #FFFFFF !important;
+            }
+
+            .user-dropdown-toggle::after {
+                display: inline-block;
+                margin-left: 4px;
+                vertical-align: middle;
+                content: "";
+                border-top: 5px solid;
+                border-right: 5px solid transparent;
+                border-left: 5px solid transparent;
+                color: rgba(255,255,255,0.5);
+                font-size: 0.8rem;
+            }
+
+        .btn-login {
+            background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+            border: none;
+            padding: 6px 22px;
+            border-radius: 50px;
+            color: #FFFFFF !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+            .btn-login:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 10px 30px rgba(108,99,255,0.3);
+                color: #FFFFFF !important;
+            }
+
+        .btn-register {
+            background: transparent;
+            border: 2px solid rgba(255,255,255,0.2);
+            padding: 4px 18px;
+            border-radius: 50px;
+            color: #FFFFFF !important;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+            .btn-register:hover {
+                border-color: #6C63FF;
+                background: rgba(108,99,255,0.1);
+                color: #FFFFFF !important;
+            }
+
+        @@media (max-width: 992px) {
+            .navbar-nav.center-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin: 10px 0 !important;
+                flex: none;
+            }
+
+            .navbar-nav.right-links {
+                flex-wrap: wrap;
+                justify-content: center;
+                margin-left: 0 !important;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .user-name-display-nav {
+                font-size: 0.8rem;
+            }
+
+            .user-icon-wrapper {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <span>E</span>Greetings
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav center-links">
+                    <li class="nav-item"><a class="nav-link active" asp-controller="Home" asp-action="Index">Home</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown">
+                            Categories
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="Category" asp-action="Details" asp-route-id="1"><i class="fas fa-birthday-cake"></i> Birthday</a></li>
+                            <li><a class="dropdown-item" asp-controller="Category" asp-action="Details" asp-route-id="2"><i class="fas fa-ring"></i> Wedding</a></li>
+                            <li><a class="dropdown-item" asp-controller="Category" asp-action="Details" asp-route-id="3"><i class="fas fa-calendar-alt"></i> New Year</a></li>
+                            <li><a class="dropdown-item" asp-controller="Category" asp-action="Details" asp-route-id="4"><i class="fas fa-gift"></i> Festivals</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item"><a class="nav-link" asp-controller="Subscribe" asp-action="Plans">Subscribe</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Feedback" asp-action="Create">Feedback</a></li>
+                    <li class="nav-item"><a class="nav-link" asp-controller="Home" asp-action="About">About</a></li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="helpDropdown" role="button" data-bs-toggle="dropdown">
+                            Help
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="Contact"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="Privacy"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="HelpCenter"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                            <li><a class="dropdown-item" asp-controller="Home" asp-action="TermsOfService"><i class="fas fa-file-contract"></i> Terms of Service</a></li>
+                        </ul>
+                    </li>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item"><a class="nav-link" asp-controller="Card" asp-action="MyCards">My Cards</a></li>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">
+                                    <i class="fas fa-crown" style="color:#FFD93D;"></i> Admin
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+
+                <!-- ✅ RIGHT - USER ICON + FULL NAME -->
+                <ul class="navbar-nav right-links">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        var currentUser = await userManager.GetUserAsync(User);
+                        <li class="nav-item dropdown">
+                            <a class="nav-link user-dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                <span class="user-icon-wrapper">
+                                    <i class="fas fa-user"></i>
+                                </span>
+                                <span class="user-name-display-nav">@(currentUser?.FullName ?? User.Identity.Name)</span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li>
+                                    <div class="dropdown-user-info">
+                                        <div class="user-name-display">
+                                            <i class="fas fa-user-circle" style="color:#6C63FF;"></i> @(currentUser?.FullName ?? User.Identity.Name)
+                                        </div>
+                                    </div>
+                                </li>
+                                <li><a class="dropdown-item" asp-controller="Account" asp-action="Profile"><i class="fas fa-user"></i> Profile</a></li>
+                                <li><hr class="dropdown-divider" /></li>
+                                <li>
+                                    <form asp-controller="Account" asp-action="Logout" method="post" style="display:inline;">
+                                        <button type="submit" class="dropdown-item text-danger" style="border:none; background:none; width:100%;">
+                                            <i class="fas fa-sign-out-alt"></i> Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            <a class="btn btn-login" asp-controller="Account" asp-action="Login">
+                                <i class="fas fa-user"></i> Login
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-register ms-2" asp-controller="Account" asp-action="Register">
+                                Register
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <h5 class="footer-brand">
+                        <i class="fas fa-greeting"></i> <span>E</span>Greetings
+                    </h5>
+                    <p class="footer-desc">Send beautiful digital cards to your loved ones with just a few clicks. Personalize, schedule, and spread joy.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2">
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled">
+                        <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-controller="Category" asp-action="Index">Categories</a></li>
+                        <li><a asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-controller="Subscribe" asp-action="Plans">Subscribe</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2">
+                    <h6>Support</h6>
+                    <ul class="list-unstyled">
+                        <li><a asp-controller="Home" asp-action="Contact">Contact Us</a></li>
+                        <li><a asp-controller="Home" asp-action="Privacy">Privacy Policy</a></li>
+                        <li><a asp-controller="Home" asp-action="TermsOfService">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4">
+                    <h6>Subscribe to Newsletter</h6>
+                    <p class="newsletter-text">Get daily greeting cards directly in your inbox.</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Your Email" />
+                        <button class="btn btn-newsletter">Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 EGreetings. All Rights Reserved. | Developed by Aptech Students
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true, offset: 100 });
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

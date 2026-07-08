@@ -1,0 +1,146 @@
+﻿@model ReportsViewModel
+@{
+    ViewData["Title"] = "Reports - Admin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .admin-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+    }
+</style>
+
+<section class="admin-section">
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1;">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 style="font-size:2.8rem; font-weight:700; color:#FFFFFF; margin-bottom:0;">
+                    Reports <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">& Analytics</span>
+                </h2>
+                <p style="color:rgba(255,255,255,0.4);">View detailed statistics and reports</p>
+            </div>
+            <a asp-action="Dashboard" class="btn btn-register" style="text-decoration:none; padding:10px 30px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; display:inline-block;">
+                <i class="fas fa-home"></i> Dashboard
+            </a>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-4 col-md-6">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:25px;">
+                    <div style="color:#6C63FF; font-size:2rem;"><i class="fas fa-calendar-day"></i></div>
+                    <div style="font-size:2.5rem; font-weight:700; color:#FFFFFF;">@Model.TodayCards</div>
+                    <div style="color:rgba(255,255,255,0.4);">Cards Sent Today</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:25px;">
+                    <div style="color:#FF6B6B; font-size:2rem;"><i class="fas fa-calendar-week"></i></div>
+                    <div style="font-size:2.5rem; font-weight:700; color:#FFFFFF;">@Model.WeekCards</div>
+                    <div style="color:rgba(255,255,255,0.4);">Cards Sent This Week</div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:25px;">
+                    <div style="color:#4CAF50; font-size:2rem;"><i class="fas fa-calendar-alt"></i></div>
+                    <div style="font-size:2.5rem; font-weight:700; color:#FFFFFF;">@Model.MonthCards</div>
+                    <div style="color:rgba(255,255,255,0.4);">Cards Sent This Month</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row g-4 mb-4">
+            <div class="col-lg-6">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
+                    <h5 style="color:#FFFFFF; font-weight:600;">Cards by Category</h5>
+                    <div class="mt-3">
+                        @if (Model.CardsByCategory != null && Model.CardsByCategory.Any())
+                        {
+                            @foreach (var item in Model.CardsByCategory)
+                            {
+                                <div style="margin-bottom:15px;">
+                                    <div style="display:flex; justify-content:space-between; color:rgba(255,255,255,0.6);">
+                                        <span>@item.CategoryName</span>
+                                        <span>@item.Count cards</span>
+                                    </div>
+                                    <div style="width:100%; height:8px; background:rgba(255,255,255,0.05); border-radius:10px; margin-top:5px;">
+                                        <div style="height:100%; width:@((Model.CardsByCategory.Max()?.Count ?? 1) > 0 ? (item.Count * 100 / Model.CardsByCategory.Max(c => c.Count)) : 0)%; background:linear-gradient(90deg, #6C63FF, #FF6B6B); border-radius:10px;"></div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <p style="color:rgba(255,255,255,0.3); text-align:center;">No data available</p>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
+                    <h5 style="color:#FFFFFF; font-weight:600;">Daily Transactions (Last 30 Days)</h5>
+                    <div class="mt-3">
+                        @if (Model.DailyTransactions != null && Model.DailyTransactions.Any())
+                        {
+                            <div style="max-height:300px; overflow-y:auto;">
+                                @foreach (var item in Model.DailyTransactions.OrderBy(d => d.Date))
+                                {
+                                    <div style="display:flex; justify-content:space-between; padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.03);">
+                                        <span style="color:rgba(255,255,255,0.4);">@item.Date.ToString("dd MMM yyyy")</span>
+                                        <span style="color:#FFFFFF;">@item.Count cards</span>
+                                    </div>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <p style="color:rgba(255,255,255,0.3); text-align:center;">No data available</p>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

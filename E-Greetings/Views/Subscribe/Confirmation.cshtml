@@ -1,0 +1,95 @@
+﻿@{
+    ViewData["Title"] = "Subscription Confirmed - E-Greetings";
+}
+
+<style>
+    @@keyframes gradientBG {
+        0% {
+            background-position: 0% 50%;
+        }
+
+        50% {
+            background-position: 100% 50%;
+        }
+
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+
+    @@keyframes floatBubble {
+        0%, 100% {
+            transform: translate(0, 0) scale(1);
+            opacity: 0.5;
+        }
+
+        50% {
+            transform: translate(30px, -30px) scale(1.2);
+            opacity: 1;
+        }
+    }
+
+    .confirmation-section {
+        position: relative;
+        overflow: hidden;
+        padding: 120px 0 80px;
+        min-height: 80vh;
+        background: #0F0F1A;
+        display: flex;
+        align-items: center;
+    }
+
+    .success-icon {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #6C63FF, #FF6B6B);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .success-icon i {
+            font-size: 3rem;
+            color: #FFFFFF;
+        }
+</style>
+
+<section class="confirmation-section">
+    <!-- ANIMATED BACKGROUND -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0;
+                background: linear-gradient(135deg, #0F0F1A 0%, #1A0A2E 25%, #2A0A3E 50%, #1A0A2E 75%, #0F0F1A 100%);
+                background-size: 400% 400%;
+                animation: gradientBG 12s ease-in-out infinite;">
+    </div>
+
+    <!-- FLOATING BUBBLES -->
+    <div style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden;">
+        <div style="position:absolute; top:10%; left:5%; width:200px; height:200px; border-radius:50%; background:rgba(108,99,255,0.08); animation: floatBubble 8s ease-in-out infinite;"></div>
+        <div style="position:absolute; bottom:15%; right:5%; width:300px; height:300px; border-radius:50%; background:rgba(255,107,107,0.06); animation: floatBubble 10s ease-in-out infinite 2s;"></div>
+        <div style="position:absolute; top:50%; left:40%; width:120px; height:120px; border-radius:50%; background:rgba(255,217,61,0.05); animation: floatBubble 12s ease-in-out infinite 4s;"></div>
+    </div>
+
+    <div class="container" style="position:relative; z-index:1; text-align:center;">
+        <div data-aos="zoom-in">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 style="color:#FFFFFF; font-weight:700; margin-top:30px;">
+                Subscription <span style="background:linear-gradient(135deg, #6C63FF, #FF6B6B); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Activated</span>
+            </h2>
+            <p style="color:rgba(255,255,255,0.4); font-size:1.1rem; max-width:500px; margin:10px auto;">
+                Your premium plan is now active. Start sending unlimited cards to your loved ones!
+            </p>
+            <div class="mt-4">
+                <a asp-controller="Home" asp-action="Index" class="btn btn-login" style="padding:12px 40px; background:linear-gradient(135deg, #6C63FF, #FF6B6B); border:none; border-radius:50px; color:#FFFFFF; font-weight:600; text-decoration:none; display:inline-block; transition:all 0.3s ease;">
+                    <i class="fas fa-home"></i> Go to Home
+                </a>
+                <a asp-controller="Card" asp-action="MyCards" class="btn btn-register" style="padding:12px 40px; margin-left:10px; border:2px solid rgba(255,255,255,0.2); border-radius:50px; color:#FFFFFF; background:transparent; text-decoration:none; display:inline-block;">
+                    <i class="fas fa-envelope"></i> My Cards
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
