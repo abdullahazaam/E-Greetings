@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace E_Greetings.Migrations
+namespace EGreetings.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -115,7 +115,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2026, 6, 29, 23, 49, 53, 956, DateTimeKind.Local).AddTicks(9377),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1376),
                             Description = "Happy Birthday cards",
                             IconClass = "fa-birthday-cake",
                             Name = "Birthday"
@@ -123,7 +123,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2026, 6, 29, 23, 49, 53, 956, DateTimeKind.Local).AddTicks(9379),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1379),
                             Description = "Wedding anniversary cards",
                             IconClass = "fa-ring",
                             Name = "Wedding"
@@ -131,7 +131,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2026, 6, 29, 23, 49, 53, 956, DateTimeKind.Local).AddTicks(9381),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1380),
                             Description = "New Year celebration cards",
                             IconClass = "fa-calendar-alt",
                             Name = "New Year"
@@ -139,7 +139,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2026, 6, 29, 23, 49, 53, 956, DateTimeKind.Local).AddTicks(9383),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1382),
                             Description = "Festival celebration cards",
                             IconClass = "fa-gift",
                             Name = "Festivals"

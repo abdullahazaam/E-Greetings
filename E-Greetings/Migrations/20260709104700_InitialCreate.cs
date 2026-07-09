@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace E_Greetings.Migrations
+namespace EGreetings.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
@@ -271,7 +271,10 @@ namespace E_Greetings.Migrations
                     PhotoPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VideoPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ScheduleDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsScheduled = table.Column<bool>(type: "bit", nullable: false),
+                    IsSent = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -325,10 +328,10 @@ namespace E_Greetings.Migrations
                 columns: new[] { "CategoryId", "CreatedDate", "Description", "IconClass", "Name" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2805), "Happy Birthday cards", "fa-birthday-cake", "Birthday" },
-                    { 2, new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2808), "Wedding anniversary cards", "fa-ring", "Wedding" },
-                    { 3, new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2809), "New Year celebration cards", "fa-calendar-alt", "New Year" },
-                    { 4, new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2811), "Festival celebration cards", "fa-gift", "Festivals" }
+                    { 1, new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1376), "Happy Birthday cards", "fa-birthday-cake", "Birthday" },
+                    { 2, new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1379), "Wedding anniversary cards", "fa-ring", "Wedding" },
+                    { 3, new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1380), "New Year celebration cards", "fa-calendar-alt", "New Year" },
+                    { 4, new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1382), "Festival celebration cards", "fa-gift", "Festivals" }
                 });
 
             migrationBuilder.CreateIndex(

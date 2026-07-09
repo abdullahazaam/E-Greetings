@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace E_Greetings.Migrations
+namespace EGreetings.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260625105311_InitialCreate")]
+    [Migration("20260709104700_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -33,6 +33,12 @@ namespace E_Greetings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CardId"));
 
+                    b.Property<bool>("IsScheduled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSent")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -47,6 +53,9 @@ namespace E_Greetings.Migrations
                     b.Property<string>("RecipientName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ScheduleDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("SenderId")
                         .IsRequired()
@@ -109,7 +118,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 1,
-                            CreatedDate = new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2805),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1376),
                             Description = "Happy Birthday cards",
                             IconClass = "fa-birthday-cake",
                             Name = "Birthday"
@@ -117,7 +126,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 2,
-                            CreatedDate = new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2808),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1379),
                             Description = "Wedding anniversary cards",
                             IconClass = "fa-ring",
                             Name = "Wedding"
@@ -125,7 +134,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 3,
-                            CreatedDate = new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2809),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1380),
                             Description = "New Year celebration cards",
                             IconClass = "fa-calendar-alt",
                             Name = "New Year"
@@ -133,7 +142,7 @@ namespace E_Greetings.Migrations
                         new
                         {
                             CategoryId = 4,
-                            CreatedDate = new DateTime(2026, 6, 25, 15, 53, 10, 739, DateTimeKind.Local).AddTicks(2811),
+                            CreatedDate = new DateTime(2026, 7, 9, 15, 47, 0, 100, DateTimeKind.Local).AddTicks(1382),
                             Description = "Festival celebration cards",
                             IconClass = "fa-gift",
                             Name = "Festivals"
