@@ -34,7 +34,7 @@
     .admin-section {
         position: relative;
         overflow: hidden;
-        padding: 120px 0 80px;
+        padding: 50px 0 80px;
         min-height: 80vh;
         background: #0F0F1A;
     }
@@ -78,41 +78,39 @@
                 @foreach (var feedback in Model)
                 {
                     <div class="col-lg-6">
-                        <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
-                            <div class="d-flex justify-content-between align-items-start">
+                        <div style="background:rgba(255,255,255,0.02); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.04); border-radius:20px; padding:20px; transition:all 0.3s ease;">
+                            <div style="display:flex; justify-content:space-between; align-items:start;">
                                 <div>
                                     <h6 style="color:#FFFFFF; font-weight:600;">@feedback.User?.Email</h6>
-                                    <small style="color:rgba(255,255,255,0.3);">@feedback.SentDate.ToString("dd MMM yyyy, hh:mm tt")</small>
+                                    <small style="color:rgba(255,255,255,0.2);">@feedback.SentDate.ToString("dd MMM yyyy, hh:mm tt")</small>
                                 </div>
-                                <div>
-                                    <span style="color:#FFD93D;">
-                                        @for (int i = 0; i < feedback.Rating; i++)
-                                        {
-                                            <i class="fas fa-star"></i>
-                                        }
-                                    </span>
+                                <div style="color:#FFD93D;">
+                                    @for (int i = 0; i < feedback.Rating; i++)
+                                    {
+                                        <i class="fas fa-star"></i>
+                                    }
+                                    @for (int i = feedback.Rating; i < 5; i++)
+                                    {
+                                        <i class="fas fa-star" style="color:rgba(255,255,255,0.05);"></i>
+                                    }
                                 </div>
                             </div>
-                            <p style="color:rgba(255,255,255,0.6); margin-top:10px;">@feedback.Message</p>
-                            <div class="mt-2">
-                                <form asp-action="DeleteFeedback" method="post" style="display:inline;">
-                                    <input type="hidden" name="id" value="@feedback.FeedbackId" />
-                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this feedback?')" style="padding:5px 15px; border:none; border-radius:50px; background:#FF6B6B; color:#FFFFFF; font-weight:600;">
-                                        <i class="fas fa-trash"></i> Delete
-                                    </button>
-                                </form>
-                            </div>
+                            <p style="color:rgba(255,255,255,0.5); margin-top:10px; font-style:italic;">"@feedback.Message"</p>
+                            <form asp-action="DeleteFeedback" method="post" style="display:inline;">
+                                <input type="hidden" name="id" value="@feedback.FeedbackId" />
+                                <button type="submit" class="btn-action delete" onclick="return confirm('Delete this feedback?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                            </form>
                         </div>
                     </div>
                 }
             }
             else
             {
-                <div class="col-12 text-center" style="padding:80px 0;">
-                    <i class="fas fa-comment" style="font-size:4rem; color:rgba(255,255,255,0.1);"></i>
-                    <h4 style="color:rgba(255,255,255,0.4); margin-top:20px;">No feedbacks received yet</h4>
+                <div class="col-12 text-center" style="padding:60px 0;">
+                    <i class="fas fa-comment" style="font-size:3rem; color:rgba(255,255,255,0.05);"></i>
+                    <h4 style="color:rgba(255,255,255,0.2); margin-top:15px;">No feedbacks received yet</h4>
                 </div>
             }
         </div>
-    </div>
-</section>

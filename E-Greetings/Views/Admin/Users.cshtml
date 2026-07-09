@@ -34,7 +34,7 @@
     .admin-section {
         position: relative;
         overflow: hidden;
-        padding: 120px 0 80px;
+        padding: 50px 0 80px;
         min-height: 80vh;
         background: #0F0F1A;
     }
@@ -187,9 +187,9 @@
             </div>
         }
 
-        <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
+        <div class="table-wrapper">
             <div class="table-responsive">
-                <table class="table table-dark table-hover" style="border-color:rgba(255,255,255,0.05);">
+                <table class="table-custom">
                     <thead>
                         <tr>
                             <th><i class="fas fa-envelope"></i> Email</th>
@@ -211,11 +211,11 @@
                                     <td>
                                         @if (item.Roles.Contains("Admin"))
                                         {
-                                            <span class="badge-admin"><i class="fas fa-crown"></i> Admin</span>
+                                            <span class="badge-role-admin"><i class="fas fa-crown"></i> Admin</span>
                                         }
                                         else
                                         {
-                                            <span class="badge-user"><i class="fas fa-user"></i> User</span>
+                                            <span class="badge-role-user"><i class="fas fa-user"></i> User</span>
                                         }
                                     </td>
                                     <td>
@@ -223,13 +223,13 @@
                                             @(item.User.IsActive ? "Active" : "Inactive")
                                         </span>
                                     </td>
-                                    <td>@item.User.CreatedDate.ToString("dd MMM yyyy")</td>
+                                    <td style="color:rgba(255,255,255,0.3);">@item.User.CreatedDate.ToString("dd MMM yyyy")</td>
                                     <td>
                                         <div style="display:flex; flex-wrap:wrap; gap:4px;">
                                             <!-- Toggle Status -->
                                             <form asp-action="ToggleUserStatus" method="post" style="display:inline;">
                                                 <input type="hidden" name="userId" value="@item.User.Id" />
-                                                <button type="submit" class="action-btn @(item.User.IsActive ? "btn-delete" : "btn-edit")"
+                                                <button type="submit" class="btn-action @(item.User.IsActive ? "deactivate" : "activate")"
                                                         title="@(item.User.IsActive ? "Deactivate" : "Activate")">
                                                     <i class="fas @(item.User.IsActive ? "fa-pause-circle" : "fa-play-circle")"></i>
                                                     @(item.User.IsActive ? "Deactivate" : "Activate")
@@ -244,8 +244,8 @@
                                                     <form asp-action="ChangeUserRole" method="post" style="display:inline;">
                                                         <input type="hidden" name="userId" value="@item.User.Id" />
                                                         <input type="hidden" name="role" value="User" />
-                                                        <button type="submit" class="action-btn btn-remove-admin"
-                                                                title="Remove Admin role" onclick="return confirm('Remove Admin role from this user?')">
+                                                        <button type="submit" class="btn-action remove-admin"
+                                                                onclick="return confirm('Remove Admin role from this user?')">
                                                             <i class="fas fa-user"></i> Remove Admin
                                                         </button>
                                                     </form>
@@ -255,8 +255,8 @@
                                                     <form asp-action="ChangeUserRole" method="post" style="display:inline;">
                                                         <input type="hidden" name="userId" value="@item.User.Id" />
                                                         <input type="hidden" name="role" value="Admin" />
-                                                        <button type="submit" class="action-btn btn-make-admin"
-                                                                title="Make Admin" onclick="return confirm('Make this user an Admin?')">
+                                                        <button type="submit" class="btn-action make-admin"
+                                                                onclick="return confirm('Make this user an Admin?')">
                                                             <i class="fas fa-crown"></i> Make Admin
                                                         </button>
                                                     </form>
@@ -264,27 +264,23 @@
                                             }
                                             else
                                             {
-                                                <span class="action-btn" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.3); cursor:not-allowed;">
-                                                    <i class="fas fa-lock"></i> Protected
-                                                </span>
+                                                <span class="btn-action protected"><i class="fas fa-lock"></i> Protected</span>
                                             }
 
-                                            <!-- Delete User -->
+                                            <!-- Delete -->
                                             @if (item.User.Email != "admin@egreetings.com")
                                             {
                                                 <form asp-action="DeleteUser" method="post" style="display:inline;">
                                                     <input type="hidden" name="userId" value="@item.User.Id" />
-                                                    <button type="submit" class="action-btn btn-delete"
-                                                            title="Delete User" onclick="return confirm('Are you sure you want to delete this user? This action cannot be undone!')">
+                                                    <button type="submit" class="btn-action delete"
+                                                            onclick="return confirm('Are you sure you want to delete this user?')">
                                                         <i class="fas fa-trash-alt"></i> Delete
                                                     </button>
                                                 </form>
                                             }
                                             else
                                             {
-                                                <span class="action-btn" style="background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.3); cursor:not-allowed;">
-                                                    <i class="fas fa-lock"></i> Protected
-                                                </span>
+                                                <span class="btn-action protected"><i class="fas fa-lock"></i> Protected</span>
                                             }
                                         </div>
                                     </td>
@@ -293,16 +289,9 @@
                         }
                         else
                         {
-                            <tr>
-                                <td colspan="6" class="text-center" style="color:rgba(255,255,255,0.3); padding:40px 0;">
-                                    <i class="fas fa-users" style="font-size:2rem; display:block; margin-bottom:10px;"></i>
-                                    No users found
-                                </td>
-                            </tr>
+                            <tr><td colspan="6" style="text-align:center; color:rgba(255,255,255,0.2); padding:40px 0;">No users found</td></tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>
-</section>

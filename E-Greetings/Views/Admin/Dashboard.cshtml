@@ -34,7 +34,7 @@
     .dashboard-section {
         position: relative;
         overflow: hidden;
-        padding: 120px 0 80px;
+        padding: 50px 0 80px;
         min-height: 80vh;
         background: #0F0F1A;
     }
@@ -176,71 +176,42 @@
         </div>
 
         <!-- Recent Cards & Feedbacks -->
-        <div class="row g-4">
-            <div class="col-lg-8">
-                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
-                    <h5 style="color:#FFFFFF; font-weight:600;">Recent Cards Sent</h5>
-                    <div class="table-responsive mt-3">
-                        <table class="table table-dark table-hover" style="border-color:rgba(255,255,255,0.05);">
-                            <thead><tr><th>ID</th><th>Sender</th><th>Recipient</th><th>Template</th><th>Date</th><th>Status</th></tr></thead>
-                            <tbody>
-                                @if (Model.RecentCards.Any())
-                                {
-                                    @foreach (var card in Model.RecentCards)
-                                    {
-                                        <tr>
-                                            <td>#@card.CardId</td>
-                                            <td>@card.Sender?.Email</td>
-                                            <td>@card.RecipientEmail</td>
-                                            <td>@card.Template?.Title</td>
-                                            <td>@card.SentDate.ToString("dd MMM yyyy")</td>
-                                            <td><span class="badge" style="background:@(card.Status == "Delivered" ? "#4CAF50" : "#FFA94D");">@card.Status</span></td>
-                                        </tr>
-                                    }
-                                }
-                                else
-                                {
-                                    <tr><td colspan="6" class="text-center" style="color:rgba(255,255,255,0.3);">No cards sent yet</td></tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div style="background:rgba(255,255,255,0.03); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.05); border-radius:20px; padding:20px;">
-                    <h5 style="color:#FFFFFF; font-weight:600;">Recent Feedbacks</h5>
-                    <div class="mt-3">
-                        @if (Model.RecentFeedbacks.Any())
+        <div class="table-wrapper">
+            <h5 style="color:#FFFFFF; font-weight:600; margin-bottom:15px;">
+                <i class="fas fa-clock" style="color:#6C63FF;"></i> Recent Cards Sent
+            </h5>
+            <div class="table-responsive">
+                <table class="table-custom">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Sender</th>
+                            <th>Recipient</th>
+                            <th>Template</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.RecentCards.Any())
                         {
-                            @foreach (var feedback in Model.RecentFeedbacks)
+                            @foreach (var card in Model.RecentCards)
                             {
-                                <div style="padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
-                                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                                        <strong style="color:#FFFFFF;">@feedback.User?.Email</strong>
-                                        <span style="color:rgba(255,255,255,0.3); font-size:0.8rem;">@feedback.SentDate.ToString("dd MMM")</span>
-                                    </div>
-                                    <p style="color:rgba(255,255,255,0.4); font-size:0.9rem; margin:5px 0;">@feedback.Message</p>
-                                    <span style="color:#FFD93D;">
-                                        @for (int i = 0; i < feedback.Rating; i++)
-                                        {
-                                            <i class="fas fa-star"></i>
-                                        }
-                                        @for (int i = feedback.Rating; i < 5; i++)
-                                        {
-                                            <i class="fas fa-star" style="color:rgba(255,255,255,0.1);"></i>
-                                        }
-                                    </span>
-                                </div>
+                                <tr>
+                                    <td><span style="color:#6C63FF; font-weight:600;">#@card.CardId</span></td>
+                                    <td>@card.Sender?.Email</td>
+                                    <td>@card.RecipientEmail</td>
+                                    <td>@card.Template?.Title</td>
+                                    <td style="color:rgba(255,255,255,0.4);">@card.SentDate.ToString("dd MMM yyyy")</td>
+                                    <td><span class="badge-status @(card.Status == "Delivered" ? "delivered" : "scheduled")">@card.Status</span></td>
+                                </tr>
                             }
                         }
                         else
                         {
-                            <p style="color:rgba(255,255,255,0.3); text-align:center;">No feedbacks yet</p>
+                            <tr><td colspan="6" style="text-align:center; color:rgba(255,255,255,0.2); padding:30px 0;">No cards sent yet</td></tr>
                         }
-                    </div>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
-    </div>
-</section>
