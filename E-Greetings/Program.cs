@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// ✅ Sirf SQL Server (Local) - MySQL hata do
+// ✅ SIRF SQL Server (Local + Live dono ke liye)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -25,11 +25,13 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
+// ✅ FULL NAME AS USERNAME
 builder.Services.Configure<IdentityOptions>(options =>
 {
     options.ClaimsIdentity.UserNameClaimType = "FullName";
 });
 
+// Configure Cookie settings
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Account/Login";
@@ -39,11 +41,15 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
+// Register Email Service
 builder.Services.AddScoped<IEmailService, EmailService>();
+
+// ✅ REGISTER SCHEDULED EMAIL SERVICE
 builder.Services.AddHostedService<ScheduledEmailService>();
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -52,7 +58,9 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -60,6 +68,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
+// Seed Roles and Admin User
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

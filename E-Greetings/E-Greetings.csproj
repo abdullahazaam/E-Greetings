@@ -7,12 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<!-- ✅ SQL Server (Local) -->
+		<!-- ✅ SQL Server (Local + Live) -->
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
-
-		<!-- ✅ MySQL (Live) -->
-		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.0" />
 
 		<!-- ✅ Identity -->
 		<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
