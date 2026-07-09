@@ -9,9 +9,22 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-// Add Database Context
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// ✅ Database Context - MySQL + SQL Server (based on connection string)
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// ✅ Detect if connection string is MySQL or SQL Server
+if (connectionString.Contains("databaseaspx.net") || connectionString.Contains("mysql"))
+{
+    // 🔴 MySQL (Live - MonsterASP.NET)
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+}
+else
+{
+    // 🔵 SQL Server (Local - Development)
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
