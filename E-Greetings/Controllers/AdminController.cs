@@ -12,11 +12,16 @@ namespace E_Greetings.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly SignInManager<User> _signInManager;
 
-        public AdminController(ApplicationDbContext context, UserManager<User> userManager)
+        public AdminController(
+            ApplicationDbContext context,
+            UserManager<User> userManager,
+            SignInManager<User> signInManager)
         {
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         // ===== DASHBOARD =====
@@ -190,17 +195,41 @@ namespace E_Greetings.Controllers
             return View(userRoles);
         }
 
+        // ===== TOGGLE USER STATUS (ACTIVATE/DEACTIVATE) =====
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ToggleUserStatus(string userId)
         {
             var user = await _userManager.FindByIdAsync(userId);
-            if (user != null)
+            if (user == null)
             {
-                user.IsActive = !user.IsActive;
-                await _context.SaveChangesAsync();
-                TempData["Success"] = $"User {(user.IsActive ? "activated" : "deactivated")} successfully!";
+                TempData["Error"] = "User not found!";
+                return RedirectToAction(nameof(Users));
             }
+
+            // ✅ Admin khud ko deactivate nahi kar sakta
+            if (user.Email == "admin@egreetings.com")
+            {
+                TempData["Error"] = "You cannot deactivate the main admin account!";
+                return RedirectToAction(nameof(Users));
+            }
+
+            // ✅ Toggle status
+            user.IsActive = !user.IsActive;
+            await _userManager.UpdateAsync(user);
+
+            // ✅ AGAR DEACTIVATE KIYA HAI TO FORCE LOGOUT
+            if (!user.IsActive)
+            {
+                // ✅ Forcefully logout agar currently logged in hai
+                await _signInManager.SignOutAsync();
+                TempData["Success"] = $"User {user.FullName} has been deactivated and logged out!";
+            }
+            else
+            {
+                TempData["Success"] = $"User {user.FullName} has been activated!";
+            }
+
             return RedirectToAction(nameof(Users));
         }
 

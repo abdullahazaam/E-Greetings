@@ -82,6 +82,26 @@ namespace E_Greetings.Controllers
         {
             if (ModelState.IsValid)
             {
+                // ✅ CHECK: User exist karta hai?
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user != null)
+                {
+                    // ✅ CHECK: User active hai? (IsActive = false means deactivated)
+                    if (!user.IsActive)
+                    {
+                        ModelState.AddModelError(string.Empty, "Your account has been deactivated. Please contact admin.");
+                        return View(model);
+                    }
+
+                    // ✅ CHECK: Email confirmed hai?
+                    if (!await _userManager.IsEmailConfirmedAsync(user))
+                    {
+                        ModelState.AddModelError(string.Empty, "Please confirm your email before logging in.");
+                        return View(model);
+                    }
+                }
+
                 var result = await _signInManager.PasswordSignInAsync(
                     model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
@@ -126,13 +146,9 @@ namespace E_Greetings.Controllers
                     }
                     await _userManager.AddToRoleAsync(user, "User");
 
-                    // ✅ GENERATE EMAIL CONFIRMATION TOKEN
                     var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmationLink = Url.Action("ConfirmEmail", "Account", new { token, email = user.Email }, Request.Scheme);
                     await _emailService.SendEmailConfirmationAsync(user.Email, confirmationLink);
-
-                    // ✅ LOGIN MAT KARO - CONFIRMATION KA INTIZAR KARO
-                    // await _signInManager.SignInAsync(user, isPersistent: false);
 
                     TempData["Success"] = "Registration successful! Please check your email to confirm your account before logging in.";
                     return RedirectToAction("Login");

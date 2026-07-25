@@ -1,4 +1,5 @@
 ﻿using E_Greetings.Data;
+using E_Greetings.Filters;
 using E_Greetings.Models;
 using E_Greetings.Services;
 using Microsoft.AspNetCore.Identity;
@@ -6,10 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+// ✅ SIRF EK BAAR AddControllersWithViews() CALL KAREIN
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add<ActiveUserFilter>();
+});
 
-// ✅ SIRF SQL Server (Local + Live dono ke liye)
+// ✅ SQL Server (Local + Live dono ke liye)
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -46,6 +50,9 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 
 // ✅ REGISTER SCHEDULED EMAIL SERVICE
 builder.Services.AddHostedService<ScheduledEmailService>();
+
+// ✅ REGISTER ACTIVE USER FILTER (Har request par check)
+builder.Services.AddScoped<ActiveUserFilter>();
 
 var app = builder.Build();
 
