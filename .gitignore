@@ -360,4 +360,8 @@ MigrationBackup/
 .ionide/
 
 # Fody - auto-generated XML schema
-FodyWeavers.xsd*.bacpac
+FodyWeavers.xsd
+
+# Database exports and backups
+*.bacpac
+*.bak
