@@ -1,83 +1,38 @@
 # E-Greetings
 
-E-Greetings is an ASP.NET Core MVC portfolio application for creating, scheduling, managing, and sharing digital greeting cards.
+E-Greetings is an ASP.NET Core project for creating and scheduling digital greeting cards. I built it to practise working with templates, user accounts, scheduled work and email-related features in one application.
 
-## Features
+## What it does
 
-- Account registration, email confirmation, login, password recovery, and profile management
-- Greeting categories and reusable card templates
-- Personalised card creation, preview, download, scheduling, and send workflow
-- Subscription plans and transaction records
-- Customer feedback
-- Admin dashboard for templates, users, roles, transactions, feedback, and reports
-- Scheduled email background service
-- Entity Framework Core migrations for SQL Server
+- Lets users browse greeting-card templates
+- Supports personalised messages and card previews
+- Saves drafts and scheduled greetings
+- Includes registration, sign-in and account management
+- Handles subscriptions and user preferences
+- Provides an admin area for templates, users and reports
+- Uses a background service for scheduled email work
 
 ## Technology
 
-- .NET 8 and ASP.NET Core MVC
-- C# and Razor views
+- ASP.NET Core MVC on .NET 8
+- C# and Entity Framework Core
+- SQL Server
 - ASP.NET Core Identity
-- Entity Framework Core with SQL Server
-- HTML, CSS, Bootstrap, and JavaScript
+- Razor views, Bootstrap, CSS and JavaScript
 
-## Repository structure
+## Running the project
 
-```text
-E-Greetings/
-├── E-Greetings.sln
-└── E-Greetings/
-    ├── Controllers/
-    ├── Data/
-    ├── Migrations/
-    ├── Models/
-    ├── Services/
-    ├── Views/
-    └── wwwroot/
-```
-
-## Run locally
-
-### Requirements
-
-- .NET 8 SDK
-- SQL Server or SQL Server LocalDB
-- EF Core CLI
+You will need the .NET 8 SDK and SQL Server.
 
 ```bash
-git clone https://github.com/abdullahazaam/E-Greetings.git
-cd E-Greetings
 dotnet restore
-dotnet ef database update --project E-Greetings/E-Greetings.csproj
-dotnet run --project E-Greetings/E-Greetings.csproj
+dotnet ef database update
+dotnet run
 ```
 
-Provide configuration through environment variables or an untracked local settings file:
+Set the database connection and mail configuration through user secrets, environment variables or a local configuration file that is not committed to Git.
 
-```text
-ConnectionStrings__DefaultConnection
-EmailSettings__SmtpServer
-EmailSettings__SmtpPort
-EmailSettings__SmtpUsername
-EmailSettings__SmtpPassword
-EmailSettings__FromEmail
-```
+## Current status
 
-Never commit database or email credentials.
-
-## Build verification
-
-```bash
-dotnet build E-Greetings.sln --configuration Release
-```
-
-Automated tests are not currently included. Adding controller/service tests and an integration-test project is an explicit next step rather than an unverified claim.
-
-## Portfolio status
-
-This repository demonstrates a complete MVC application flow and admin features. Before real-world deployment it still needs automated test coverage, production secret management, reliable email delivery monitoring, and deployment-specific security review.
-
-## Author
-
-**Abdullah Azaam** — junior web developer focused on ASP.NET Core, C#, SQL Server, PHP, and Laravel.
+The main application flows are implemented and the repository includes a GitHub Actions build check. Automated application tests have not been added yet, so that is one of the next improvements I would make.
 
