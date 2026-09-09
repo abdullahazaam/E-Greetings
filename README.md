@@ -2,6 +2,8 @@
 
 E-Greetings is an ASP.NET Core project for creating and scheduling digital greeting cards. I built it to practise working with templates, user accounts, scheduled work and email-related features in one application.
 
+**[Live Demo](http://e-greeting.runasp.net/) · [Source Code](https://github.com/abdullahazaam/E-Greetings)**
+
 ## What it does
 
 - Lets users browse greeting-card templates
